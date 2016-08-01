@@ -36,23 +36,37 @@ public class IntelReader {
         String[] nameSplitted;
         
         raw = fileManager.ReadFile(intelFile);
+        raw = fileManager.ISOtoUTF(raw);
         
         rawSplitted = raw.split("\n");
-        nameSplitted = rawSplitted[10].split(" ");//In the 8th line there is the char name
+        nameSplitted = rawSplitted[16].split(" ");//In the 8th line there is the char name
         //As the name is also splited by spaces, from the 10th space there is the name
         for (int i = 10; i < nameSplitted.length; i++)
             charInfoSource += nameSplitted[i] + " ";
 
-        //The first 13 lines are static and not useful
-        for (int i = 13; i < rawSplitted.length; i++) {
+        //The first 26 lines are static and not useful
+        for (int i = 26; i < rawSplitted.length; i++) {
             
-            String time;
-            String rest;
-                        
-            String[] x = rawSplitted[i].split("]");
-            String[] y = x[1].split("]");
-            time = y[0];
-            rest = y[1];
+            //The odd lines are always empty
+            if((i%2)==0){
+                
+                int time = 0;
+                String rest;
+                String y;
+
+                String[] x = rawSplitted[i].split("]");
+                y = x[0];
+
+                x = y.split(" ");
+                y = x[2];
+
+                x = y.split(":");
+                time += Integer.parseInt(x[0]);
+                time = (time*60)*60;
+                time += (Integer.parseInt(x[1])*60);
+                time += Integer.parseInt(x[2]);
+                
+            }
             
         }
         

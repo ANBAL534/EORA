@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -141,6 +144,31 @@ public class FileManager {
             return false;
             
         }
+        
+    }
+    
+    public String ISOtoUTF(String isoString){
+        
+        String utfText = "";
+        
+        try {
+            
+            byte[] iso = isoString.getBytes();
+            
+            for (int i = 0; i < iso.length; i++) {
+                
+                if(iso[i] == -17 || iso[i] == -65 || iso[i] == -67)
+                    iso[i] = 0;
+                
+            }
+            
+            utfText = new String(iso);
+            
+        } catch (Exception ex) {
+            System.out.println("**Error encoding a file**");
+        }
+        
+        return utfText;
         
     }
     
