@@ -154,6 +154,7 @@ public class FileManager {
         try {
             
             byte[] iso = isoString.getBytes();
+            byte[] utf = new byte[iso.length];
             
             for (int i = 0; i < iso.length; i++) {
                 
@@ -162,10 +163,22 @@ public class FileManager {
                 
             }
             
-            utfText = new String(iso);
+            int index = 0;
+            for (int i = 0; i < utf.length; i++) {
+                
+                if(iso[i] != 0){
+                    
+                    utf[index] = iso[i];
+                    index++;
+                    
+                }
+                
+            }
+            
+            utfText = new String(utf);
             
         } catch (Exception ex) {
-            System.out.println("**Error encoding a file**");
+            System.out.println("**Error decoding a file**");
         }
         
         return utfText;
