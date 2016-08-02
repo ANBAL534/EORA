@@ -8,14 +8,17 @@ import java.util.ArrayList;
  */
 public class IntelReader {
     
+    //Variables
     public final String intelFile;
     public String charInfoSource;
+    
     private ArrayList<Integer> reportTime;
     private ArrayList<String> reporter;
     private ArrayList<String> systemReported;
     private ArrayList<String> extraInfo;
+    private String[] starSystems;
     
-    public IntelReader(String intelFilePath){
+    public IntelReader(String intelFilePath, String mapPath){
         
         intelFile = intelFilePath;
         charInfoSource = "";
@@ -25,9 +28,17 @@ public class IntelReader {
         systemReported = new ArrayList<String>();
         extraInfo = new ArrayList<String>();
         
+        starSystems = getSystems(mapPath);
+        
     }
     
     public void updateIntelArrays(){
+        
+        /*
+        * Report example:
+        * ﻿[ 2016.07.31 11:13:33 ] Some One > E-FIC0  Another One nv
+        * ﻿[ 2016.07.31 11:13:34 ] Some One > Another One nv E-FIC0
+        */
         
         FileManager fileManager = new FileManager();
         
@@ -37,6 +48,12 @@ public class IntelReader {
         
         raw = fileManager.ReadFile(intelFile);
         raw = fileManager.ISOtoUTF(raw);
+        
+        //Erase the arrays as we rewrite them completely
+        reportTime = new ArrayList<Integer>();
+        reporter = new ArrayList<String>();
+        systemReported = new ArrayList<String>();
+        extraInfo = new ArrayList<String>();
         
         rawSplitted = raw.split("\n");
         nameSplitted = rawSplitted[16].split(" ");//In the 8th line there is the char name
@@ -51,20 +68,47 @@ public class IntelReader {
             if((i%2)==0){
                 
                 int time = 0;
-                String rest;
-                String y;
+                String splitted;
+                String[] splittedText;
+                String[] halved;
+                String report;
 
-                String[] x = rawSplitted[i].split("]");
-                y = x[0];
+                //Get the time of the report
+                halved = rawSplitted[i].split("]");
+                splitted = halved[0];
 
-                x = y.split(" ");
-                y = x[2];
+                halved = splitted.split(" ");
+                splitted = halved[2];
 
-                x = y.split(":");
-                time += Integer.parseInt(x[0]);
+                halved = splitted.split(":");
+                time += Integer.parseInt(halved[0]);
                 time = (time*60)*60;
-                time += (Integer.parseInt(x[1])*60);
-                time += Integer.parseInt(x[2]);
+                time += (Integer.parseInt(halved[1])*60);
+                time += Integer.parseInt(halved[2]);
+                reportTime.add(time);
+                //End get the time of the report
+                
+                //Get the reporter
+                halved = rawSplitted[i].split(" ] ");
+                splitted = halved[1];
+                halved = splitted.split(" > ");
+                reporter.add(halved[0]);
+                //End get the reporter
+                
+                //Get the reported System
+                for (int j = 0; j < starSystems.length; j++) {
+                    
+                    if(halved[1].contains(starSystems[j]))
+                        systemReported.add(starSystems[j]);
+                    
+                }
+                
+                //If in the below for there is no coincidende, we add message to the report
+                if(systemReported.size() != reporter.size())
+                    systemReported.add("System not in map");
+                //End get the reported system
+                
+                extraInfo.add(halved[1]);//We add the original report
                 
             }
             
@@ -82,7 +126,41 @@ public class IntelReader {
     //Tells if the report supplied is the latest reported in intel
     public boolean isLastReport(String[] report){
         
+        /*
+        * Report array order:
+        *      [0]             [1]              [2]           [3]
+        * time in seconds, reporter name, system reported, extra info
+        */
         
+        
+        
+    }
+    
+    private String[] getSystems(String mapPath){
+        
+        /*
+        * Go through the map file and add to an array all the non-empty systems
+        */
+        
+        FileManager fileManager = new FileManager();
+        
+        String raw;
+        String[] rawSplitted;
+        ArrayList<String> starSystems = new ArrayList<String>();
+        
+        raw = fileManager.ReadFile(mapPath);
+        raw = fileManager.ISOtoUTF(raw);
+        
+        rawSplitted = raw.split(" ");
+        
+        for (int i = 0; i < rawSplitted.length; i++) {
+            
+            if(!rawSplitted[i].equals("EMPTY"))
+                starSystems.add(rawSplitted[i]);
+            
+        }
+        
+        return starSystems.toArray(new String[starSystems.size()-1]);
         
     }
     
