@@ -62,7 +62,7 @@ public class IntelReader {
             charInfoSource += nameSplitted[i] + " ";
 
         //The first 26 lines are static and not useful
-        for (int i = 26; i < rawSplitted.length; i++) {
+        for (int i = 26; i < rawSplitted.length-3; i++) {
             
             //The odd lines are always empty
             if((i%2)==0){
