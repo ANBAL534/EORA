@@ -24,6 +24,7 @@ public class Shared {
     private volatile FileManager fileManager;
     private volatile MapLogic mapLogic;
     private volatile IntelReader intelReader;
+    private volatile String[] systemsInRange;
     //End Shared Variables
 
     public String getChatLogsPath() {
@@ -120,6 +121,14 @@ public class Shared {
 
     public void setIntelReader(IntelReader intelReader) {
         this.intelReader = intelReader;
+    }
+
+    public String[] getSystemsInRange() {
+        return systemsInRange;
+    }
+
+    public void setSystemsInRange(String[] systemsInRange) {
+        this.systemsInRange = systemsInRange;
     }
     
 }
