@@ -283,7 +283,7 @@ public class MapLogic {
             }
                 
             
-            //As we have already poblated the notsearchedyet list, se mark the 
+            //As we have already populated the notsearchedyet list, se mark the 
             //origin system as searched and in range and remove it from notsearchedyet
             if(notSearchedYet.get(0).startsWith("ANCLA") || notSearchedYet.get(0).startsWith("EKS")){
                 
@@ -300,8 +300,8 @@ public class MapLogic {
             
         }
         
-        //Return a satandar array with the in range systems
-        finalInRange = (String[]) inRange.toArray();
+        //Return a standar array with the in range systems
+        finalInRange = inRange.toArray(new String[inRange.size()-1]);
         return finalInRange;
         
     }
