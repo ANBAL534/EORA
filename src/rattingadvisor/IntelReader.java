@@ -32,7 +32,7 @@ public class IntelReader {
         
     }
     
-    public void updateIntelArrays(){
+    private void updateIntelArrays(){
         
         /*
         * Report example:
@@ -119,20 +119,37 @@ public class IntelReader {
     //Returns the last reported item in the Intel Channel
     public String[] getLastReport(){
         
-        
-        
-    }
-    
-    //Tells if the report supplied is the latest reported in intel
-    public boolean isLastReport(String[] report){
-        
         /*
         * Report array order:
         *      [0]             [1]              [2]           [3]
         * time in seconds, reporter name, system reported, extra info
         */
         
+        String[] lastReport = new String[4];
         
+        updateIntelArrays();
+        
+        lastReport[0] = reportTime.get(reportTime.size()-1) + "";
+        lastReport[1] = reporter.get(reporter.size()-1);
+        lastReport[2] = systemReported.get(systemReported.size()-1);
+        lastReport[3] = extraInfo.get(extraInfo.size()-1);
+        
+        return lastReport;
+        
+        
+    }
+    
+    //Tells if the report supplied is the latest reported in intel
+    public boolean isLastReport(String[] report){
+
+        int comparationTime;
+        
+        updateIntelArrays();
+        comparationTime = Integer.parseInt(report[0]);
+        
+        if(comparationTime == reportTime.get(reportTime.size()-1))
+            return true;
+        return false;
         
     }
     

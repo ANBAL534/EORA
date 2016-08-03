@@ -9,8 +9,6 @@ import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Locale;
-import sun.net.www.protocol.http.HttpURLConnection;
-
 /**
  *
  * @author Anibal
@@ -32,7 +30,7 @@ public class SettingsWindow extends javax.swing.JFrame {
         //Set the default values for the textFields
         timeText.setText(Calendar.getInstance(Locale.GERMANY).getTime().getDate()+ "/" + (Calendar.getInstance(Locale.GERMANY).getTime().getMonth()+1) + "/" + (Calendar.getInstance(Locale.GERMANY).getTime().getYear()+1900));
         logPath.setText(System.getProperty("user.home") + "\\Documents\\EVE\\logs\\Chatlogs");
-        intelChannel.setText("GOTG_Intel");
+        intelChannel.setText("Intel");
         
         //Set controls to make mandatory press the save button
         if(firstStart){
@@ -202,6 +200,8 @@ public class SettingsWindow extends javax.swing.JFrame {
                 + "AlarmSound=" + "G:\\Mi Musica\\Pilar Man Awaken.mp3" + "\n"
                 + "CheckLocal=" + "FALSE" + "\n"
                 + "CheckShield=" + "FALSE" + "\n";
+        
+        fileManager.WriteFile("config/settings.cfg", newFile);
         
     }//GEN-LAST:event_saveButtonActionPerformed
 

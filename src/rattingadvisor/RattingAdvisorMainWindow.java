@@ -246,8 +246,7 @@ public class RattingAdvisorMainWindow extends FrameView {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         
-        IntelReader ir = new IntelReader("/home/administrador/NetBeansProjects/EORA/testData/Intel_20160731_111021.txt", "/home/administrador/NetBeansProjects/EORA/testData/v1.map");
-        ir.updateIntelArrays();
+        
         
     }//GEN-LAST:event_startButtonActionPerformed
 
