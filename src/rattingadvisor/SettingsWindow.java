@@ -28,7 +28,6 @@ public class SettingsWindow extends javax.swing.JFrame {
         setLocation(p);
         
         //Set the default values for the textFields
-        timeText.setText(Calendar.getInstance(Locale.GERMANY).getTime().getDate()+ "/" + (Calendar.getInstance(Locale.GERMANY).getTime().getMonth()+1) + "/" + (Calendar.getInstance(Locale.GERMANY).getTime().getYear()+1900));
         logPath.setText(System.getProperty("user.home") + "\\Documents\\EVE\\logs\\Chatlogs");
         intelChannel.setText("Intel");
         
@@ -65,10 +64,16 @@ public class SettingsWindow extends javax.swing.JFrame {
         logPath = new javax.swing.JTextField();
         intelChannel = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        timeText = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         discardButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        rattingSystemText = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        maxJumps = new javax.swing.JSpinner();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        alarmSoundPath = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -91,12 +96,6 @@ public class SettingsWindow extends javax.swing.JFrame {
         jButton3.setEnabled(false);
         jButton3.setName("jButton3"); // NOI18N
 
-        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
-        jLabel4.setName("jLabel4"); // NOI18N
-
-        timeText.setEditable(false);
-        timeText.setName("timeText"); // NOI18N
-
         saveButton.setText(resourceMap.getString("saveButton.text")); // NOI18N
         saveButton.setName("saveButton"); // NOI18N
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -113,16 +112,34 @@ public class SettingsWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
+        jLabel4.setName("jLabel4"); // NOI18N
+
+        rattingSystemText.setText(resourceMap.getString("rattingSystemText.text")); // NOI18N
+        rattingSystemText.setName("rattingSystemText"); // NOI18N
+
+        jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
+        jLabel5.setName("jLabel5"); // NOI18N
+
+        maxJumps.setName("maxJumps"); // NOI18N
+
+        jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
+        jLabel6.setName("jLabel6"); // NOI18N
+
+        jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
+        jLabel7.setName("jLabel7"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        alarmSoundPath.setName("alarmSoundPath"); // NOI18N
+        jScrollPane1.setViewportView(alarmSoundPath);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(224, 224, 224)
-                        .addComponent(jLabel1)
-                        .addGap(0, 223, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,18 +152,37 @@ public class SettingsWindow extends javax.swing.JFrame {
                                     .addComponent(logPath)
                                     .addComponent(intelChannel)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 140, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(saveButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(discardButton)))))
+                                .addComponent(jButton3)
+                                .addGap(116, 116, 116)
+                                .addComponent(discardButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(224, 224, 224)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addComponent(jButton3)
+                .addContainerGap()
+                .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -162,16 +198,25 @@ public class SettingsWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(intelChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
-                    .addComponent(discardButton))
+                    .addComponent(discardButton)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -195,9 +240,9 @@ public class SettingsWindow extends javax.swing.JFrame {
         //STUB
         newFile = "ChatLogsPath=" + logPath.getText() + "\n"
                 + "IntelChannel=" + intelChannel.getText() + "\n"
-                + "RattingSystem=" + "9CK-KZ" + "\n"
-                + "JumpsNumber=" + "3" + "\n" 
-                + "AlarmSound=" + "G:\\Mi Musica\\Pilar Man Awaken.mp3" + "\n"
+                + "RattingSystem=" + rattingSystemText.getText().toUpperCase() + "\n"
+                + "JumpsNumber=" + maxJumps.getValue() + "\n" 
+                + "AlarmSound=" + alarmSoundPath.getText() + "\n"
                 + "CheckLocal=" + "FALSE" + "\n"
                 + "CheckShield=" + "FALSE" + "\n";
         
@@ -206,6 +251,7 @@ public class SettingsWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextPane alarmSoundPath;
     private javax.swing.JButton discardButton;
     private javax.swing.JTextField intelChannel;
     private javax.swing.JButton jButton3;
@@ -213,8 +259,13 @@ public class SettingsWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField logPath;
+    private javax.swing.JSpinner maxJumps;
+    private javax.swing.JTextField rattingSystemText;
     private javax.swing.JButton saveButton;
-    private javax.swing.JTextField timeText;
     // End of variables declaration//GEN-END:variables
 }

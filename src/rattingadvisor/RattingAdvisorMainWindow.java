@@ -4,7 +4,6 @@
 
 package rattingadvisor;
 
-import java.awt.Color;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 
@@ -33,7 +32,38 @@ public class RattingAdvisorMainWindow extends FrameView {
         //Frame Settings
         getFrame().setTitle("EVE Online Ratting Advisor - v 0.1");
         getFrame().setResizable(false);//We do not want to let people resize the window
+        //End Frame Settings
 
+        //Populate Shared Variables
+        Shared shared = new Shared();
+        IntelFileFinder intelFinder = new IntelFileFinder();
+        FileManager fileManager = new FileManager();
+        String raw = fileManager.ReadFile("config/settings.cfg");//Read the settings file
+        String[] variables = raw.split("\n");
+        String[] value;
+        String[] orderedValues = new String[7];
+        for (int i = 0; i < variables.length-1; i++) {
+            
+            value = variables[i].split("=");
+            orderedValues[i] = value[1];
+            
+        }
+        shared.setChatLogsPath(orderedValues[0]);
+        shared.setIntelChannelName(orderedValues[1]);
+        shared.setRattingSystemName(orderedValues[2]);
+        shared.setMaxJumpsNumber(Integer.parseInt(orderedValues[3]));
+        shared.setAlarmSoundPath(orderedValues[4]);
+        shared.setCheckLocal(false);
+        shared.setCheckShield(false);
+        shared.setMapPath("maps/v1.map");
+        shared.setLogTextArea(logTextArea);
+        shared.setFileManager(new FileManager());
+        shared.setMapLogic(new MapLogic(shared.getMapPath()));
+        shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName()), "maps/v1.map"));
+        //End Populate Shared Variables
+        
+        logTextArea.setText(logTextArea.getText() + "\n Reading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session.");
+        
     }
 
     /** This method is called from within the constructor to
@@ -157,34 +187,36 @@ public class RattingAdvisorMainWindow extends FrameView {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)))
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(startButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stopButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(settingsButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addComponent(startButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(stopButton)
+                                .addGap(194, 194, 194))
+                            .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(mainPanelLayout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(mainPanelLayout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(mainPanelLayout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(changeSoundButton))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(changeSoundButton)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(shieldAlarm)
-                            .addComponent(checkNeutrals)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8))))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(shieldAlarm)
+                                .addComponent(checkNeutrals)
+                                .addGroup(mainPanelLayout.createSequentialGroup()
+                                    .addGap(21, 21, 21)
+                                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel7)
+                                        .addComponent(jLabel8))))
+                            .addComponent(settingsButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -217,7 +249,7 @@ public class RattingAdvisorMainWindow extends FrameView {
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
                     .addComponent(stopButton)

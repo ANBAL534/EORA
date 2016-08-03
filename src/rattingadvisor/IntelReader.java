@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class IntelReader {
     
     //Variables
-    public final String intelFile;
-    public String charInfoSource;
+    private final String intelFile;
+    private String charInfoSource;
     
     private ArrayList<Integer> reportTime;
     private ArrayList<String> reporter;
@@ -30,6 +30,10 @@ public class IntelReader {
         
         starSystems = getSystems(mapPath);
         
+    }
+    
+    public String getCharInfoSource() {
+        return charInfoSource;
     }
     
     private void updateIntelArrays(){

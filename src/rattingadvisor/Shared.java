@@ -1,6 +1,6 @@
 package rattingadvisor;
 
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Shared {
     private volatile String alarmSoundPath;
     private volatile boolean checkLocal;
     private volatile boolean checkShield;
-    private volatile JTextArea logTextArea;
+    private volatile JTextPane logTextArea;
     private volatile FileManager fileManager;
     private volatile MapLogic mapLogic;
     private volatile IntelReader intelReader;
@@ -58,7 +58,7 @@ public class Shared {
         return checkShield;
     }
 
-    public JTextArea getLogTextArea() {
+    public JTextPane getLogTextArea() {
         return logTextArea;
     }
 
@@ -106,7 +106,7 @@ public class Shared {
         this.checkShield = checkShield;
     }
 
-    public void setLogTextArea(JTextArea logTextArea) {
+    public void setLogTextArea(JTextPane logTextArea) {
         this.logTextArea = logTextArea;
     }
 
