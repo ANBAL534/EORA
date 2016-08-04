@@ -142,7 +142,6 @@ public class IntelReader {
         
         return lastReport;
         
-        
     }
     
     //Tells if the report supplied is the latest reported in intel
