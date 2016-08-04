@@ -20,6 +20,7 @@ public class SettingsWindow extends javax.swing.JFrame {
      */
     public SettingsWindow(Point p, boolean firstStart) {
         initComponents();
+        Shared shared = new Shared();
         
         //Frame Settings
         setTitle("EVE Online Ratting Advisor - Settings");
@@ -28,8 +29,11 @@ public class SettingsWindow extends javax.swing.JFrame {
         setLocation(p);
         
         //Set the default values for the textFields
-        logPath.setText(System.getProperty("user.home") + "\\Documents\\EVE\\logs\\Chatlogs");
-        intelChannel.setText("Intel");
+        logPath.setText(shared.getChatLogsPath());
+        intelChannel.setText(shared.getIntelChannelName());
+        rattingSystemText.setText(shared.getRattingSystemName());
+        maxJumps.setValue(shared.getMaxJumpsNumber());
+        alarmSoundPath.setText(shared.getAlarmSoundPath());
         
         //Set controls to make mandatory press the save button
         if(firstStart){
@@ -234,8 +238,8 @@ public class SettingsWindow extends javax.swing.JFrame {
         FileManager fileManager = new FileManager();
         String oldFile, newFile;
         
-        oldFile = fileManager.ReadFile("config/settings.cfg");
-        fileManager.NewFile("config/settings.cfg");
+        oldFile = fileManager.ReadFile("/home/administrador/NetBeansProjects/EORA/dist/config/settings.cfg");
+        fileManager.NewFile("/home/administrador/NetBeansProjects/EORA/dist/config/settings.cfg");
         
         //STUB
         newFile = "ChatLogsPath=" + logPath.getText() + "\n"
@@ -246,7 +250,8 @@ public class SettingsWindow extends javax.swing.JFrame {
                 + "CheckLocal=" + "FALSE" + "\n"
                 + "CheckShield=" + "FALSE" + "\n";
         
-        fileManager.WriteFile("config/settings.cfg", newFile);
+        fileManager.WriteFile("/home/administrador/NetBeansProjects/EORA/dist/config/settings.cfg", newFile);
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         
     }//GEN-LAST:event_saveButtonActionPerformed
 

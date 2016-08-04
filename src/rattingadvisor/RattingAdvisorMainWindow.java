@@ -18,7 +18,7 @@ public class RattingAdvisorMainWindow extends FrameView {
 
         initComponents();
         
-        if(!new FileManager().FileExist("config/settings.cfg")){
+        if(!new FileManager().FileExist("/home/administrador/NetBeansProjects/EORA/dist/config/settings.cfg")){
             
             /* Create and display the settings form */
             java.awt.EventQueue.invokeLater(new Runnable() {
@@ -38,7 +38,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         Shared shared = new Shared();
         IntelFileFinder intelFinder = new IntelFileFinder();
         FileManager fileManager = new FileManager();
-        String raw = fileManager.ReadFile("config/settings.cfg");//Read the settings file
+        String raw = fileManager.ReadFile("/home/administrador/NetBeansProjects/EORA/dist/config/settings.cfg");//Read the settings file
         String[] variables = raw.split("\n");
         String[] value;
         String[] orderedValues = new String[7];
@@ -55,14 +55,19 @@ public class RattingAdvisorMainWindow extends FrameView {
         shared.setAlarmSoundPath(orderedValues[4]);
         shared.setCheckLocal(false);
         shared.setCheckShield(false);
-        shared.setMapPath("maps/v1.map");
+        shared.setMapPath("/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map");
         shared.setLogTextArea(logTextArea);
         shared.setFileManager(new FileManager());
         shared.setMapLogic(new MapLogic(shared.getMapPath()));
-        shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName()), "maps/v1.map"));
+        shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName()), "/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map"));
         //End Populate Shared Variables
         
-        logTextArea.setText(logTextArea.getText() + "\n Reading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session.");
+        logTextArea.setText(logTextArea.getText() + "\nReading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session.");
+        
+        //Set Default Values for the MainWindow TextAreas
+        rattingSystemText.setText(shared.getRattingSystemName());
+        maxJumps.setValue(shared.getMaxJumpsNumber());
+        //END Set Default Values for the MainWindow TextAreas
         
     }
 
@@ -106,6 +111,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         logTextArea.setEditable(false);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(rattingadvisor.RattingAdvisor.class).getContext().getResourceMap(RattingAdvisorMainWindow.class);
         logTextArea.setText(resourceMap.getString("logTextArea.text")); // NOI18N
+        logTextArea.setToolTipText(resourceMap.getString("logTextArea.toolTipText")); // NOI18N
         logTextArea.setName("logTextArea"); // NOI18N
         jScrollPane1.setViewportView(logTextArea);
         logTextArea.getAccessibleContext().setAccessibleName(resourceMap.getString("logTextArea.AccessibleContext.accessibleName")); // NOI18N

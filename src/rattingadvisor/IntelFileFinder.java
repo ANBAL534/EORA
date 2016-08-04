@@ -18,7 +18,7 @@ public class IntelFileFinder {
         ArrayList<String> intelLogDates;
         Shared shared;
         String[] nameSplitted;
-        int greatest;
+        long greatest;
         int indexOfGreatest;
         String lastFileName;
         
@@ -42,7 +42,7 @@ public class IntelFileFinder {
         //Erase the file extension of the list
         for (int i = 0; i < intelLogFiles.size(); i++) {
             
-            intelLogFiles.get(i).substring(0, intelLogFiles.size()-5);
+            intelLogFiles.set(i, intelLogFiles.get(i).substring(0, intelLogFiles.get(i).length()-4));
             
         }
         
@@ -50,25 +50,25 @@ public class IntelFileFinder {
         for (int i = 0; i < intelLogFiles.size(); i++) {
             
             nameSplitted = intelLogFiles.get(i).split("_");
-            intelLogDates.add(nameSplitted[1] + nameSplitted[2]);
+            intelLogDates.add(nameSplitted[nameSplitted.length-2] + nameSplitted[nameSplitted.length-1]);
             
         }
         
-        greatest = Integer.parseInt(intelLogDates.get(0));
+        greatest = Long.parseLong(intelLogDates.get(0));
         indexOfGreatest = 0;
         //Get the greatest date
         for (int i = 0; i < intelLogDates.size(); i++) {
             
-            if(greatest < Integer.parseInt(intelLogDates.get(i))){
+            if(greatest < Long.parseLong(intelLogDates.get(i))){
             
-                greatest = Integer.parseInt(intelLogDates.get(i));
+                greatest = Long.parseLong(intelLogDates.get(i));
                 indexOfGreatest = i;
             
             }
             
         }
         
-        lastFileName = pathToChatLogDir + "\\" + intelLogFiles.get(indexOfGreatest) + ".txt";
+        lastFileName = pathToChatLogDir + "/" + intelLogFiles.get(indexOfGreatest) + ".txt";
         return lastFileName;
         
     }

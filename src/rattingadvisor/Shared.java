@@ -12,19 +12,19 @@ import javax.swing.JTextPane;
 public class Shared {
     
     //Shared Variables
-    private volatile String chatLogsPath;
-    private volatile String mapPath;
-    private volatile String intelChannelName;
-    private volatile String rattingSystemName;
-    private volatile int maxJumpsNumber;
-    private volatile String alarmSoundPath;
-    private volatile boolean checkLocal;
-    private volatile boolean checkShield;
-    private volatile JTextPane logTextArea;
-    private volatile FileManager fileManager;
-    private volatile MapLogic mapLogic;
-    private volatile IntelReader intelReader;
-    private volatile String[] systemsInRange;
+    private static volatile String chatLogsPath;
+    private static volatile String mapPath;
+    private static volatile String intelChannelName;
+    private static volatile String rattingSystemName;
+    private static volatile int maxJumpsNumber;
+    private static volatile String alarmSoundPath;
+    private static volatile boolean checkLocal;
+    private static volatile boolean checkShield;
+    private static volatile JTextPane logTextArea;
+    private static volatile FileManager fileManager;
+    private static volatile MapLogic mapLogic;
+    private static volatile IntelReader intelReader;
+    private static volatile String[] systemsInRange;
     //End Shared Variables
 
     public String getChatLogsPath() {

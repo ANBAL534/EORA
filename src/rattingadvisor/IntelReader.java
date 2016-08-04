@@ -30,6 +30,8 @@ public class IntelReader {
         
         starSystems = getSystems(mapPath);
         
+        updateIntelArrays();
+        
     }
     
     public String getCharInfoSource() {
@@ -60,7 +62,7 @@ public class IntelReader {
         extraInfo = new ArrayList<String>();
         
         rawSplitted = raw.split("\n");
-        nameSplitted = rawSplitted[16].split(" ");//In the 8th line there is the char name
+        nameSplitted = rawSplitted[10].split(" ");//In the 8th line there is the char name
         //As the name is also splited by spaces, from the 10th space there is the name
         for (int i = 10; i < nameSplitted.length; i++)
             charInfoSource += nameSplitted[i] + " ";
