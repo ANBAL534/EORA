@@ -20,6 +20,7 @@
 
 package rattingadvisor;
 
+import javax.swing.JOptionPane;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 
@@ -50,6 +51,12 @@ public class RattingAdvisorMainWindow extends FrameView {
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
 
+        initializeFieldsAndShared();
+        
+    }
+    
+    private void initializeFieldsAndShared(){
+        
         //Populate Shared Variables
         Shared shared = new Shared();
         IntelFileFinder intelFinder = new IntelFileFinder();
@@ -78,7 +85,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName()), "/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map"));
         //End Populate Shared Variables
         
-        logTextArea.setText(logTextArea.getText() + "\nReading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session.");
+        logTextArea.setText(logTextArea.getText() + "\nReading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session or search for a new one.");
         
         //Set Default Values for the MainWindow TextAreas
         rattingSystemText.setText(shared.getRattingSystemName());
@@ -109,11 +116,12 @@ public class RattingAdvisorMainWindow extends FrameView {
         rattingSystemText = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         maxJumps = new javax.swing.JSpinner();
-        jLabel6 = new javax.swing.JLabel();
         checkNeutrals = new javax.swing.JCheckBox();
         jLabel7 = new javax.swing.JLabel();
         shieldAlarm = new javax.swing.JCheckBox();
         jLabel8 = new javax.swing.JLabel();
+        searchButton = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
 
         mainPanel.setMaximumSize(new java.awt.Dimension(600, 400));
@@ -176,9 +184,6 @@ public class RattingAdvisorMainWindow extends FrameView {
 
         maxJumps.setName("maxJumps"); // NOI18N
 
-        jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
-        jLabel6.setName("jLabel6"); // NOI18N
-
         checkNeutrals.setText(resourceMap.getString("checkNeutrals.text")); // NOI18N
         checkNeutrals.setEnabled(false);
         checkNeutrals.setName("checkNeutrals"); // NOI18N
@@ -194,6 +199,17 @@ public class RattingAdvisorMainWindow extends FrameView {
         jLabel8.setFont(resourceMap.getFont("jLabel8.font")); // NOI18N
         jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
         jLabel8.setName("jLabel8"); // NOI18N
+
+        searchButton.setText(resourceMap.getString("searchButton.text")); // NOI18N
+        searchButton.setName("searchButton"); // NOI18N
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText(resourceMap.getString("jLabel9.text")); // NOI18N
+        jLabel9.setName("jLabel9"); // NOI18N
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -218,26 +234,28 @@ public class RattingAdvisorMainWindow extends FrameView {
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(shieldAlarm)
-                                .addComponent(checkNeutrals)
-                                .addGroup(mainPanelLayout.createSequentialGroup()
-                                    .addGap(21, 21, 21)
-                                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel7)
-                                        .addComponent(jLabel8))))
-                            .addComponent(settingsButton, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
+                                .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(startButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(stopButton)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addComponent(searchButton)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(shieldAlarm)
+                            .addComponent(checkNeutrals)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)))))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(startButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(stopButton)
+                        .addGap(0, 453, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(settingsButton)))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -261,20 +279,22 @@ public class RattingAdvisorMainWindow extends FrameView {
                     .addComponent(jLabel5)
                     .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(shieldAlarm))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(startButton)
+                            .addComponent(stopButton)
+                            .addComponent(settingsButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(startButton)
-                    .addComponent(stopButton)
-                    .addComponent(settingsButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(searchButton)
+                            .addComponent(jLabel9))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -302,8 +322,9 @@ public class RattingAdvisorMainWindow extends FrameView {
         maxJumps.setEnabled(false);
         startButton.setEnabled(false);
         settingsButton.setEnabled(false);
+        searchButton.setEnabled(false);
         stopButton.setEnabled(true);
-        logTextArea.setText(logTextArea.getText() + "\nStarting scanning...");
+        logTextArea.setText(logTextArea.getText() + "\nScanning started...");
         
     }//GEN-LAST:event_startButtonActionPerformed
 
@@ -314,10 +335,18 @@ public class RattingAdvisorMainWindow extends FrameView {
         maxJumps.setEnabled(true);
         startButton.setEnabled(true);
         settingsButton.setEnabled(true);
+        searchButton.setEnabled(true);
         stopButton.setEnabled(false);
-        logTextArea.setText(logTextArea.getText() + "\nStopping scanning...");
+        logTextArea.setText(logTextArea.getText() + "\nScanning stopped...");
         
     }//GEN-LAST:event_stopButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        
+        JOptionPane.showMessageDialog(null, "Renember only the last game session opened's intel channel will be chosen\neven if that game session is closed.", "New Session Search", JOptionPane.INFORMATION_MESSAGE);
+        initializeFieldsAndShared();
+        
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkNeutrals;
@@ -326,15 +355,16 @@ public class RattingAdvisorMainWindow extends FrameView {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextPane logTextArea;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JSpinner maxJumps;
     private javax.swing.JTextField rattingSystemText;
+    private javax.swing.JButton searchButton;
     private javax.swing.JButton settingsButton;
     private javax.swing.JCheckBox shieldAlarm;
     private javax.swing.JButton startButton;
