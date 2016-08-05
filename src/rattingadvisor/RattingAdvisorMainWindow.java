@@ -1,5 +1,21 @@
 /*
  * RattingAdvisorView.java
+
+    EVE Online Ratting Advisor
+    Copyright (C) 2016  Anibal Muñoz Calero
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package rattingadvisor;
@@ -135,6 +151,11 @@ public class RattingAdvisorMainWindow extends FrameView {
         stopButton.setText(resourceMap.getString("stopButton.text")); // NOI18N
         stopButton.setEnabled(false);
         stopButton.setName("stopButton"); // NOI18N
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
 
         settingsButton.setText(resourceMap.getString("settingsButton.text")); // NOI18N
         settingsButton.setName("settingsButton"); // NOI18N
@@ -276,9 +297,27 @@ public class RattingAdvisorMainWindow extends FrameView {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         
-        
+        //Disable the componets
+        rattingSystemText.setEnabled(false);
+        maxJumps.setEnabled(false);
+        startButton.setEnabled(false);
+        settingsButton.setEnabled(false);
+        stopButton.setEnabled(true);
+        logTextArea.setText(logTextArea.getText() + "\nStarting scanning...");
         
     }//GEN-LAST:event_startButtonActionPerformed
+
+    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        
+        //Enable the componets
+        rattingSystemText.setEnabled(true);
+        maxJumps.setEnabled(true);
+        startButton.setEnabled(true);
+        settingsButton.setEnabled(true);
+        stopButton.setEnabled(false);
+        logTextArea.setText(logTextArea.getText() + "\nStopping scanning...");
+        
+    }//GEN-LAST:event_stopButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkNeutrals;
