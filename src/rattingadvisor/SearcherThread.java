@@ -47,11 +47,11 @@ public class SearcherThread extends Thread{
                     if(currentReport[2].equals(shared.getSystemsInRange()[i])){
                         
                         new AlertLauncher().launchAlarm(currentReport);
-                        shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\nNeutral detected in range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "Full Message: \n\"" + currentReport[3] + "\"");
+                        shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**********************\nNeutral detected in range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
                         
                     }else{
                         
-                        shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\nNeutral detected out of range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "Full Message: \n\"" + currentReport[3] + "\"");
+                        shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**********************\nNeutral detected out of range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
                         
                     }
                         
