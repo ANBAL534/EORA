@@ -20,7 +20,10 @@
 
 package rattingadvisor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 
@@ -30,6 +33,8 @@ import org.jdesktop.application.FrameView;
  */
 public class RattingAdvisorMainWindow extends FrameView {
 
+    Thread searcher;
+    
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
 
@@ -83,6 +88,8 @@ public class RattingAdvisorMainWindow extends FrameView {
         shared.setFileManager(new FileManager());
         shared.setMapLogic(new MapLogic(shared.getMapPath()));
         shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName()), "/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map"));
+        shared.setKeepSearching(true);
+        shared.setSystemsInRange(shared.getMapLogic().mapSearcher(shared.getRattingSystemName(), shared.getMaxJumpsNumber()));
         //End Populate Shared Variables
         
         logTextArea.setText(logTextArea.getText() + "\nReading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session or search for a new one.");
@@ -324,6 +331,9 @@ public class RattingAdvisorMainWindow extends FrameView {
         settingsButton.setEnabled(false);
         searchButton.setEnabled(false);
         stopButton.setEnabled(true);
+        
+        searcher = new SearcherThread();
+        searcher.start();
         logTextArea.setText(logTextArea.getText() + "\nScanning started...");
         
     }//GEN-LAST:event_startButtonActionPerformed
@@ -337,6 +347,13 @@ public class RattingAdvisorMainWindow extends FrameView {
         settingsButton.setEnabled(true);
         searchButton.setEnabled(true);
         stopButton.setEnabled(false);
+        
+        new Shared().setKeepSearching(false);
+        try {
+            searcher.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RattingAdvisorMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         logTextArea.setText(logTextArea.getText() + "\nScanning stopped...");
         
     }//GEN-LAST:event_stopButtonActionPerformed

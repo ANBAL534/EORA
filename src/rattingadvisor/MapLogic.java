@@ -31,7 +31,7 @@ public class MapLogic {
     String[][] map;//100x100 is the standar map size
     FileManager fileManager = new FileManager();
     
-    public MapLogic(String mapName){
+    public MapLogic(String mapPath){
         
         //Variables
         String raw;
@@ -47,7 +47,7 @@ public class MapLogic {
         *
         * The file will be splited and saved in the 100x100 array by lines.
         */
-        raw = fileManager.ReadFile(mapName);
+        raw = fileManager.ReadFile(mapPath);
         splittedRaw = raw.split(" ");
         
         int x = 0;
@@ -112,7 +112,7 @@ public class MapLogic {
                 
                 for (int j = 0; j < map.length; j++) {
                     
-                    if(map[i][j].equals(notSearchedYet.get(0).split("/")[0])){}{
+                    if(map[i][j].equals(notSearchedYet.get(0).split("/")[0])){
                         
                         xOrigin = j;
                         yOrigin = i;

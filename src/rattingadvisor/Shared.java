@@ -45,7 +45,16 @@ public class Shared {
     private static volatile MapLogic mapLogic;
     private static volatile IntelReader intelReader;
     private static volatile String[] systemsInRange;
+    private static volatile boolean keepSearching;
     //End Shared Variables
+
+    public boolean isKeepSearching() {
+        return keepSearching;
+    }
+
+    public void setKeepSearching(boolean aKeepSearching) {
+        keepSearching = aKeepSearching;
+    }
 
     public String getChatLogsPath() {
         return chatLogsPath;
