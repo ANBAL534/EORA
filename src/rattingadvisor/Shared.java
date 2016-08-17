@@ -20,7 +20,7 @@
 
 package rattingadvisor;
 
-import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -33,20 +33,29 @@ public class Shared {
     
     //Shared Variables
     private static volatile String chatLogsPath;
-    private static volatile String mapPath;
+    private static volatile String mapDbPath;
     private static volatile String intelChannelName;
     private static volatile String rattingSystemName;
     private static volatile int maxJumpsNumber;
     private static volatile String alarmSoundPath;
     private static volatile boolean checkLocal;
     private static volatile boolean checkShield;
-    private static volatile JTextPane logTextArea;
+    private static volatile JTextArea logTextArea;
     private static volatile FileManager fileManager;
     private static volatile MapLogic mapLogic;
     private static volatile IntelReader intelReader;
+    private static volatile DbUtils dbUtils;
     private static volatile String[] systemsInRange;
     private static volatile boolean keepSearching;
     //End Shared Variables
+
+    public DbUtils getDbUtils() {
+        return dbUtils;
+    }
+
+    public void setDbUtils(DbUtils aDbUtils) {
+        dbUtils = aDbUtils;
+    }
 
     public boolean isKeepSearching() {
         return keepSearching;
@@ -60,8 +69,8 @@ public class Shared {
         return chatLogsPath;
     }
 
-    public String getMapPath() {
-        return mapPath;
+    public String getMapDbPath() {
+        return mapDbPath;
     }
 
     public String getIntelChannelName() {
@@ -88,7 +97,7 @@ public class Shared {
         return checkShield;
     }
 
-    public JTextPane getLogTextArea() {
+    public JTextArea getLogTextArea() {
         return logTextArea;
     }
 
@@ -108,8 +117,8 @@ public class Shared {
         this.chatLogsPath = chatLogsPath;
     }
 
-    public void setMapPath(String mapPath) {
-        this.mapPath = mapPath;
+    public void setMapDbPath(String mapDbPath) {
+        this.mapDbPath = mapDbPath;
     }
 
     public void setIntelChannelName(String intelChannelName) {
@@ -136,7 +145,7 @@ public class Shared {
         this.checkShield = checkShield;
     }
 
-    public void setLogTextArea(JTextPane logTextArea) {
+    public void setLogTextArea(JTextArea logTextArea) {
         this.logTextArea = logTextArea;
     }
 

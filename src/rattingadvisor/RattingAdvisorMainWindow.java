@@ -23,7 +23,6 @@ package rattingadvisor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.SpinnerNumberModel;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 
@@ -83,11 +82,12 @@ public class RattingAdvisorMainWindow extends FrameView {
         shared.setAlarmSoundPath(orderedValues[4]);
         shared.setCheckLocal(false);
         shared.setCheckShield(false);
-        shared.setMapPath("/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map");
+        shared.setMapDbPath("/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map");
+        shared.setDbUtils(new DbUtils(shared.getMapDbPath(), logTextArea));
         shared.setLogTextArea(logTextArea);
         shared.setFileManager(new FileManager());
-        shared.setMapLogic(new MapLogic(shared.getMapPath()));
-        shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName()), "/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map"));
+        shared.setMapLogic(new MapLogic());
+        shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName())));
         shared.setKeepSearching(true);
         shared.setSystemsInRange(shared.getMapLogic().mapSearcher(shared.getRattingSystemName(), shared.getMaxJumpsNumber()));
         //End Populate Shared Variables
@@ -111,8 +111,6 @@ public class RattingAdvisorMainWindow extends FrameView {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        logTextArea = new javax.swing.JTextPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -129,6 +127,8 @@ public class RattingAdvisorMainWindow extends FrameView {
         jLabel8 = new javax.swing.JLabel();
         searchButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        logTextArea = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
 
         mainPanel.setMaximumSize(new java.awt.Dimension(600, 400));
@@ -136,16 +136,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         mainPanel.setName("mainPanel"); // NOI18N
         mainPanel.setPreferredSize(new java.awt.Dimension(600, 400));
 
-        jScrollPane1.setName("jScrollPane1"); // NOI18N
-
-        logTextArea.setEditable(false);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(rattingadvisor.RattingAdvisor.class).getContext().getResourceMap(RattingAdvisorMainWindow.class);
-        logTextArea.setText(resourceMap.getString("logTextArea.text")); // NOI18N
-        logTextArea.setToolTipText(resourceMap.getString("logTextArea.toolTipText")); // NOI18N
-        logTextArea.setName("logTextArea"); // NOI18N
-        jScrollPane1.setViewportView(logTextArea);
-        logTextArea.getAccessibleContext().setAccessibleName(resourceMap.getString("logTextArea.AccessibleContext.accessibleName")); // NOI18N
-
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
@@ -218,21 +209,29 @@ public class RattingAdvisorMainWindow extends FrameView {
         jLabel9.setText(resourceMap.getString("jLabel9.text")); // NOI18N
         jLabel9.setName("jLabel9"); // NOI18N
 
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        logTextArea.setColumns(20);
+        logTextArea.setRows(5);
+        logTextArea.setText(resourceMap.getString("logTextArea.text")); // NOI18N
+        logTextArea.setName("logTextArea"); // NOI18N
+        jScrollPane2.setViewportView(logTextArea);
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel4)
@@ -255,12 +254,12 @@ public class RattingAdvisorMainWindow extends FrameView {
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel8)))))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
                         .addComponent(startButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(stopButton)
                         .addGap(0, 453, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(settingsButton)))
                 .addContainerGap())
@@ -290,18 +289,18 @@ public class RattingAdvisorMainWindow extends FrameView {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(startButton)
-                            .addComponent(stopButton)
-                            .addComponent(settingsButton))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(searchButton)
                             .addComponent(jLabel9))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startButton)
+                    .addComponent(stopButton)
+                    .addComponent(settingsButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -375,9 +374,9 @@ public class RattingAdvisorMainWindow extends FrameView {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextPane logTextArea;
+    private javax.swing.JTextArea logTextArea;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JSpinner maxJumps;
     private javax.swing.JTextField rattingSystemText;

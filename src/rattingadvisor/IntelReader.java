@@ -29,6 +29,8 @@ import java.util.ArrayList;
 public class IntelReader {
     
     //Variables
+    private Shared shared = new Shared();
+    
     private final String intelFile;
     private String charInfoSource;
     
@@ -38,7 +40,7 @@ public class IntelReader {
     private ArrayList<String> extraInfo;
     private String[] starSystems;
     
-    public IntelReader(String intelFilePath, String mapPath){
+    public IntelReader(String intelFilePath){
         
         intelFile = intelFilePath;
         charInfoSource = "";
@@ -48,7 +50,7 @@ public class IntelReader {
         systemReported = new ArrayList<String>();
         extraInfo = new ArrayList<String>();
         
-        starSystems = getSystems(mapPath);
+        starSystems = getSystems();
         
         updateIntelArrays();
         
@@ -178,29 +180,23 @@ public class IntelReader {
         
     }
     
-    private String[] getSystems(String mapPath){
+    private String[] getSystems(){
         
-        /*
-        * Go through the map file and add to an array all the non-empty systems
-        */
-        
-        FileManager fileManager = new FileManager();
-        
-        String raw;
-        String[] rawSplitted;
         ArrayList<String> starSystems = new ArrayList<String>();
+        String[] lastRow = new String[11];
         
-        raw = fileManager.ReadFile(mapPath);
-        raw = fileManager.ISOtoUTF(raw);
+        shared.getDbUtils().log("Loading systems from the database...");
         
-        rawSplitted = raw.split(" ");
-        
-        for (int i = 0; i < rawSplitted.length; i++) {
+        int i = 0;
+        do{
             
-            if(!rawSplitted[i].equals("EMPTY"))
-                starSystems.add(rawSplitted[i]);
+            lastRow = shared.getDbUtils().getRowFromId(i);
+            starSystems.add(lastRow[0]);
+            i++;
             
-        }
+        }while (!lastRow[0].equals(""));
+        
+        shared.getDbUtils().log("Loading of systems from the database finished.");
         
         return starSystems.toArray(new String[starSystems.size()-1]);
         
