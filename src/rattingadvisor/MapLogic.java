@@ -34,6 +34,7 @@ public class MapLogic {
         
         //Variables
         ArrayList<String> notSearchedYetJumps = new ArrayList<String>();
+        ArrayList<String> notSearchedYet = new ArrayList<String>();
         ArrayList<String> inRange = new ArrayList<String>();
         String[] finalInRange;
         int jumpsAway = 0;
@@ -47,19 +48,35 @@ public class MapLogic {
         * list which later we will compare with the intel.
         */
         notSearchedYetJumps.add(startSystem + "/" + jumpsAway);
+        notSearchedYet.add(startSystem);
         
-        while(jumpsAway <= jumpsMax){
+        while(jumpsAway < jumpsMax){
             
             //Get all connections of the origin
-            final String[] row = shared.getDbUtils().getRowFromOrigin(notSearchedYetJumps.get(0).split("/")[0]);
+            final String[] row = shared.getDbUtils().getRowFromOrigin(notSearchedYet.get(0));
+            if(row[0] == null)
+                break;
             
             //Add all connections to the noSearchedYet list if they are not yet there
             for (int i = 1; i < row.length; i++) {//Jump over origin
                 
-                
+                if(!notSearchedYet.contains(row[i]) && !inRange.contains(row[i]) && !row[i].equals("")){
+                    
+                    notSearchedYet.add(row[i]);
+                    notSearchedYetJumps.add(row[i] + "/" + (jumpsAway+1));
+                    
+                }
                 
             }
             
+            //Modify jumpsAway
+            jumpsAway = Integer.parseInt(notSearchedYetJumps.get(0).split("/")[1]);
+            
+            //Add the searched system to the inRange array and remove it from notSearchedYet
+            inRange.add(notSearchedYet.get(0));
+            notSearchedYet.remove(0);
+            notSearchedYetJumps.remove(0);
+                    
         }
         
         //Return a standar array with the in range systems

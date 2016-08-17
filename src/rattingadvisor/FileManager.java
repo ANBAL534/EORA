@@ -27,9 +27,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * 
@@ -60,7 +57,7 @@ public class FileManager {
         try {
             
             File file = new File(filePath);
-            file.getParentFile().mkdirs();
+            //file.getParentFile().mkdirs();
             file.createNewFile();
             
         } catch (IOException ex) {

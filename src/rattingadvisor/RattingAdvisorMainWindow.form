@@ -62,14 +62,13 @@
                               </Group>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Component id="startButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="stopButton" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="453" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
+                          <Component id="clearLogButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="162" max="32767" attributes="0"/>
                           <Component id="settingsButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -119,6 +118,7 @@
                       <Component id="startButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="stopButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="settingsButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="clearLogButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="190" max="-2" attributes="0"/>
@@ -183,6 +183,7 @@
         <Component class="javax.swing.JTextField" name="rattingSystemText">
           <Properties>
             <Property name="text" type="java.lang.String" resourceKey="rattingSystemText.text"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="rattingSystemText" noResource="true"/>
           </Properties>
         </Component>
@@ -194,6 +195,7 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="maxJumps">
           <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="maxJumps" noResource="true"/>
           </Properties>
         </Component>
@@ -252,6 +254,7 @@
           <SubComponents>
             <Component class="javax.swing.JTextArea" name="logTextArea">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="columns" type="int" value="20"/>
                 <Property name="rows" type="int" value="5"/>
                 <Property name="text" type="java.lang.String" resourceKey="logTextArea.text"/>
@@ -260,6 +263,15 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="clearLogButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" resourceKey="clearLogButton.text"/>
+            <Property name="name" type="java.lang.String" value="clearLogButton" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="clearLogButtonActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="jTextField1">

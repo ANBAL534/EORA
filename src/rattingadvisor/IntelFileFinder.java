@@ -47,8 +47,12 @@ public class IntelFileFinder {
         intelLogFiles = new ArrayList<String>();
         intelLogDates = new ArrayList<String>();
         
-        if(!dir.isDirectory()) 
+        if(!dir.isDirectory()) {
+        
             shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\nInvalid chat log directory, check the path in settings.");
+            return "";
+        
+        }
         
         logs = dir.listFiles();//Get a list with all the chat logs
         for (int i = 0; i < logs.length; i++) {

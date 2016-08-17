@@ -46,23 +46,46 @@ public class Shared {
     private static volatile IntelReader intelReader;
     private static volatile DbUtils dbUtils;
     private static volatile String[] systemsInRange;
-    private static volatile boolean keepSearching;
+    private static volatile boolean stillSearching;
+    private static volatile boolean keepsGettingSystems;
+    private static volatile String[] allSystems;
     //End Shared Variables
+
+    public String[] getAllSystems() {
+        return allSystems;
+    }
+
+    public void setAllSystems(String[] allSystems) {
+        Shared.allSystems = allSystems;
+    }
+
+    public boolean isKeepsGettingSystems() {
+        return keepsGettingSystems;
+    }
+
+    public void setKeepsGettingSystems(boolean aKeepsGettingSystems) {
+        keepsGettingSystems = aKeepsGettingSystems;
+    }
 
     public DbUtils getDbUtils() {
         return dbUtils;
     }
 
     public void setDbUtils(DbUtils aDbUtils) {
+        
         dbUtils = aDbUtils;
+        
+        //Open DataBase
+        getDbUtils().newOpenDb();
+        
     }
 
-    public boolean isKeepSearching() {
-        return keepSearching;
+    public boolean isStillSearching() {
+        return stillSearching;
     }
 
-    public void setKeepSearching(boolean aKeepSearching) {
-        keepSearching = aKeepSearching;
+    public void setStillSearching(boolean aKeepSearching) {
+        stillSearching = aKeepSearching;
     }
 
     public String getChatLogsPath() {

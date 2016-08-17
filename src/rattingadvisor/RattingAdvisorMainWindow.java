@@ -22,6 +22,7 @@ package rattingadvisor;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
@@ -39,17 +40,6 @@ public class RattingAdvisorMainWindow extends FrameView {
 
         initComponents();
         
-        if(!new FileManager().FileExist("/home/administrador/NetBeansProjects/EORA/dist/config/settings.cfg")){
-            
-            /* Create and display the settings form */
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new SettingsWindow(getFrame().getLocation(), true).setVisible(true);
-                }
-            });
-            
-        }
-        
         //Frame Settings
         getFrame().setTitle("EVE Online Ratting Advisor - v 0.1");
         getFrame().setResizable(false);//We do not want to let people resize the window
@@ -65,7 +55,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         Shared shared = new Shared();
         IntelFileFinder intelFinder = new IntelFileFinder();
         FileManager fileManager = new FileManager();
-        String raw = fileManager.ReadFile("/home/administrador/NetBeansProjects/EORA/dist/config/settings.cfg");//Read the settings file
+        String raw = fileManager.ReadFile("settings.cfg");//Read the settings file
         String[] variables = raw.split("\n");
         String[] value;
         String[] orderedValues = new String[7];
@@ -82,22 +72,25 @@ public class RattingAdvisorMainWindow extends FrameView {
         shared.setAlarmSoundPath(orderedValues[4]);
         shared.setCheckLocal(false);
         shared.setCheckShield(false);
-        shared.setMapDbPath("/home/administrador/NetBeansProjects/EORA/dist/maps/v1.map");
+        shared.setMapDbPath("Deklein.db");
         shared.setDbUtils(new DbUtils(shared.getMapDbPath(), logTextArea));
         shared.setLogTextArea(logTextArea);
         shared.setFileManager(new FileManager());
         shared.setMapLogic(new MapLogic());
         shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName())));
-        shared.setKeepSearching(true);
+        shared.setStillSearching(true);
         shared.setSystemsInRange(shared.getMapLogic().mapSearcher(shared.getRattingSystemName(), shared.getMaxJumpsNumber()));
+        shared.setKeepsGettingSystems(false);
         //End Populate Shared Variables
-        
-        logTextArea.setText(logTextArea.getText() + "\nReading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session or search for a new one.");
         
         //Set Default Values for the MainWindow TextAreas
         rattingSystemText.setText(shared.getRattingSystemName());
         maxJumps.setValue(shared.getMaxJumpsNumber());
         //END Set Default Values for the MainWindow TextAreas
+        
+        //Launch the GetSystems Thread
+        Thread getSystemsThread = new GetSystemsThread();
+        getSystemsThread.start();
         
     }
 
@@ -129,6 +122,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
+        clearLogButton = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
 
         mainPanel.setMaximumSize(new java.awt.Dimension(600, 400));
@@ -175,11 +169,13 @@ public class RattingAdvisorMainWindow extends FrameView {
         jLabel4.setName("jLabel4"); // NOI18N
 
         rattingSystemText.setText(resourceMap.getString("rattingSystemText.text")); // NOI18N
+        rattingSystemText.setEnabled(false);
         rattingSystemText.setName("rattingSystemText"); // NOI18N
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
 
+        maxJumps.setEnabled(false);
         maxJumps.setName("maxJumps"); // NOI18N
 
         checkNeutrals.setText(resourceMap.getString("checkNeutrals.text")); // NOI18N
@@ -211,11 +207,20 @@ public class RattingAdvisorMainWindow extends FrameView {
 
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
+        logTextArea.setEditable(false);
         logTextArea.setColumns(20);
         logTextArea.setRows(5);
         logTextArea.setText(resourceMap.getString("logTextArea.text")); // NOI18N
         logTextArea.setName("logTextArea"); // NOI18N
         jScrollPane2.setViewportView(logTextArea);
+
+        clearLogButton.setText(resourceMap.getString("clearLogButton.text")); // NOI18N
+        clearLogButton.setName("clearLogButton"); // NOI18N
+        clearLogButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearLogButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -254,13 +259,13 @@ public class RattingAdvisorMainWindow extends FrameView {
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(jLabel8)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
+                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(startButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(stopButton)
-                        .addGap(0, 453, Short.MAX_VALUE))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(143, 143, 143)
+                        .addComponent(clearLogButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
                         .addComponent(settingsButton)))
                 .addContainerGap())
         );
@@ -298,7 +303,8 @@ public class RattingAdvisorMainWindow extends FrameView {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startButton)
                     .addComponent(stopButton)
-                    .addComponent(settingsButton))
+                    .addComponent(settingsButton)
+                    .addComponent(clearLogButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -323,17 +329,26 @@ public class RattingAdvisorMainWindow extends FrameView {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         
-        //Disable the componets
-        rattingSystemText.setEnabled(false);
-        maxJumps.setEnabled(false);
-        startButton.setEnabled(false);
-        settingsButton.setEnabled(false);
-        searchButton.setEnabled(false);
-        stopButton.setEnabled(true);
-        
-        searcher = new SearcherThread();
-        searcher.start();
-        logTextArea.setText(logTextArea.getText() + "\nScanning started...");
+        if(new Shared().isKeepsGettingSystems()){
+            
+            JOptionPane.showMessageDialog(null, "The map is still loading!", "Not yet loaded", JOptionPane.INFORMATION_MESSAGE);
+            
+        }else{
+            
+            //Disable the componets
+            rattingSystemText.setEnabled(false);
+            maxJumps.setEnabled(false);
+            startButton.setEnabled(false);
+            settingsButton.setEnabled(false);
+            searchButton.setEnabled(false);
+            stopButton.setEnabled(true);
+
+            new Shared().setStillSearching(true);
+            searcher = new SearcherThread();
+            searcher.start();
+            logTextArea.setText(logTextArea.getText() + "\nScanning started...");
+            
+        }
         
     }//GEN-LAST:event_startButtonActionPerformed
 
@@ -347,7 +362,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         searchButton.setEnabled(true);
         stopButton.setEnabled(false);
         
-        new Shared().setKeepSearching(false);
+        new Shared().setStillSearching(false);
         try {
             searcher.join();
         } catch (InterruptedException ex) {
@@ -364,8 +379,15 @@ public class RattingAdvisorMainWindow extends FrameView {
         
     }//GEN-LAST:event_searchButtonActionPerformed
 
+    private void clearLogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearLogButtonActionPerformed
+        
+        logTextArea.setText("Log:");
+        
+    }//GEN-LAST:event_clearLogButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkNeutrals;
+    private javax.swing.JButton clearLogButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

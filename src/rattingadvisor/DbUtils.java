@@ -1,3 +1,23 @@
+/*
+ *  DbUtils.java
+
+    EVE Online Ratting Advisor
+    Copyright (C) 2016  Anibal Muñoz Calero
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published
+    by the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package rattingadvisor;
 
 import java.sql.*;
@@ -111,6 +131,8 @@ public class DbUtils {
                 }
                 
             }
+            
+            stmt.close();
                     
         } catch (SQLException ex) {
             log(ex.getMessage());
@@ -141,6 +163,8 @@ public class DbUtils {
                 }
                 
             }
+            
+            stmt.close();
                     
         } catch (SQLException ex) {
             log(ex.getMessage());
@@ -239,6 +263,8 @@ public class DbUtils {
                 }
                 
             }
+            
+            stmt.close();
                     
         } catch (SQLException ex) {
             log(ex.getMessage());
@@ -277,19 +303,21 @@ public class DbUtils {
                     result[8] = rs.getString("CONNECTION8");
                     result[9] = rs.getString("CONNECTION9");
                     result[10] = rs.getString("CONNECTION10");
-                    log("Connections data from " + getSystemFromId(id) + " found.");
+                    log("Connections data from ID: " + id + " (" + result[0] + ") found.");
                     break;
                 
                 }
                 
             }
+            
+            stmt.close();
                     
         } catch (SQLException ex) {
             log(ex.getMessage());
         }
         
         if(id == -1)
-            log("Connections data from " + getSystemFromId(id) + " NOT found.");
+            log("Connections data from ID: " + id + "(" + result[0] + ") NOT found.");
         
         return result;
         

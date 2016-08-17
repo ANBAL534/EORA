@@ -20,7 +20,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * Modified by Anibal to adjust to the project necessities
  */
 
-public class MediaPlayer implements Runnable{
+public class MediaPlayer extends Thread{
 
     private String filename;
 	
@@ -55,7 +55,7 @@ public class MediaPlayer implements Runnable{
     {
     	isPlayingFlag = true;
     	
-        if (!filename.toLowerCase().endsWith(".mp3") || !filename.toLowerCase().endsWith(".ogg") || !filename.toLowerCase().endsWith(".wav"))
+        if (!filename.toLowerCase().endsWith(".mp3") && !filename.toLowerCase().endsWith(".ogg") && !filename.toLowerCase().endsWith(".wav"))
         {
             shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**ERROR ALARM SOUND FILE NOT SUPPORTED**");
         }
@@ -170,15 +170,20 @@ public class MediaPlayer implements Runnable{
 	
 	public void onPause(){}
 	
-	public void resume() 
-	{
-		pauseFlag = false;
-		onResume();
-	}
-	
-	public void onResume(){}
-	
-	public void stop() 
+//	public void resume() 
+//	{
+//		pauseFlag = false;
+//		onResume();
+//	}
+//	
+//	public void onResume(){}
+//	
+//	public void stop() 
+//	{
+//		stopFlag = true;
+//	}
+        
+        public void makeItStop()
 	{
 		stopFlag = true;
 	}
