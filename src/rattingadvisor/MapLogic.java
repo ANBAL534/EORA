@@ -80,7 +80,16 @@ public class MapLogic {
         }
         
         //Return a standar array with the in range systems
-        finalInRange = inRange.toArray(new String[inRange.size()-1]);
+        if(inRange.size() > 0){
+            
+            finalInRange = inRange.toArray(new String[inRange.size()-1]);
+            
+        }else{
+            
+            finalInRange = new String[1];
+            finalInRange[0] = "";
+            
+        }
         return finalInRange;
         
     }

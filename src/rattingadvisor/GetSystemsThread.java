@@ -53,9 +53,18 @@ public class GetSystemsThread extends Thread{
         shared.setKeepsGettingSystems(false);
         
         //Set all systems
-        shared.getIntelReader().setStarSystems(shared.getAllSystems());
-        shared.getIntelReader().updateIntelArrays();
-        shared.getDbUtils().log("\nReading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session or search for a new one.");
+        
+        if(shared.getFileManager().FileExist(shared.getChatLogsPath())){
+            
+            shared.getIntelReader().setStarSystems(shared.getAllSystems());
+            shared.getIntelReader().updateIntelArrays();
+            shared.getDbUtils().log("\nReading Intel from " + shared.getIntelReader().getCharInfoSource() + "'s session.\nDo not close that session or search for a new one.");
+            
+        }else{
+            
+            shared.getDbUtils().log("\n**********************************************\nERROR: CHATLOGS NOT FOUND. PROGRAM WON'T WORK\n**********************************************");
+            
+        }
         
     }
     

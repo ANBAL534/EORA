@@ -355,8 +355,8 @@ public class RattingAdvisorMainWindow extends FrameView {
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
         
         //Enable the componets
-        rattingSystemText.setEnabled(true);
-        maxJumps.setEnabled(true);
+//        rattingSystemText.setEnabled(true);
+//        maxJumps.setEnabled(true);
         startButton.setEnabled(true);
         settingsButton.setEnabled(true);
         searchButton.setEnabled(true);

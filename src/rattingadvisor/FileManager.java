@@ -85,13 +85,13 @@ public class FileManager {
             System.out.println("**Error reading a file (NotFoundException)**");
         } finally {
             
-            try {
-                
-                br.close();
-                
-            } catch (IOException ex) {
-                System.out.println("**Error reading a file (IOException)**");
-            }
+//            try {
+//                
+//                br.close();
+//                
+//            } catch (IOException ex) {
+//                System.out.println("**Error reading a file (IOException)**");
+//            }
             
         }
         
