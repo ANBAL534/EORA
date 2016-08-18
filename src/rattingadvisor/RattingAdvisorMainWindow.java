@@ -65,6 +65,16 @@ public class RattingAdvisorMainWindow extends FrameView {
             orderedValues[i] = value[1];
             
         }
+        
+        //SET Default values
+        if(orderedValues[0].equals("None"))
+            orderedValues[0] = System.getProperty("user.home") + "/Documents/EVE/logs/Chatlogs";
+        if(Integer.parseInt(orderedValues[3]) < 1)
+            orderedValues[3] = "3";
+        if(orderedValues[4].equals("None"))
+            orderedValues[4] = "pilarManAwaken.wav";
+        //END set default values
+        
         shared.setChatLogsPath(orderedValues[0]);
         shared.setIntelChannelName(orderedValues[1]);
         shared.setRattingSystemName(orderedValues[2]);

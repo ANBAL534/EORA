@@ -20,6 +20,9 @@
 
 package rattingadvisor;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**
@@ -53,8 +56,7 @@ public class GetSystemsThread extends Thread{
         shared.setKeepsGettingSystems(false);
         
         //Set all systems
-        
-        if(shared.getFileManager().FileExist(shared.getChatLogsPath())){
+        if(new File(shared.getChatLogsPath()).exists()){
             
             shared.getIntelReader().setStarSystems(shared.getAllSystems());
             shared.getIntelReader().updateIntelArrays();
