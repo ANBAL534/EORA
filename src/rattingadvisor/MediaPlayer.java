@@ -1,5 +1,6 @@
 package rattingadvisor;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +42,10 @@ public class MediaPlayer extends Thread{
     
     public MediaPlayer(String filename)
     {
-        this.filename = filename;
+        
+        File f = new File(filename);
+        this.filename = f.getAbsolutePath();
+        
     }
     
     /**

@@ -20,6 +20,7 @@
 
 package rattingadvisor;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -68,7 +69,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         
         //SET Default values
         if(orderedValues[0].equals("None"))
-            orderedValues[0] = System.getProperty("user.home") + "/Documents/EVE/logs/Chatlogs";
+            orderedValues[0] = System.getProperty("user.home") + File.separatorChar + "Documents" + File.separatorChar + "EVE" + File.separatorChar + "logs" + File.separatorChar + "Chatlogs";
         if(Integer.parseInt(orderedValues[3]) < 1)
             orderedValues[3] = "3";
         if(orderedValues[4].equals("None"))

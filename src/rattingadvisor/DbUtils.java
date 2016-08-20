@@ -32,6 +32,7 @@ public class DbUtils {
     JTextArea textArea;
     String dbName;
     Connection conn;
+    Shared shared;
 
     public DbUtils(String databaseName, JTextArea logArea) {
     
@@ -52,6 +53,7 @@ public class DbUtils {
     public void log(String log){
         
         textArea.append("\n" + log);
+        textArea.setCaretPosition(textArea.getDocument().getLength());
         
     }
     

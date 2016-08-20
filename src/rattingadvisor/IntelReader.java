@@ -90,7 +90,7 @@ public class IntelReader {
         
         rawSplitted = raw.split("\n");
         nameSplitted = rawSplitted[10].split(" ");//In the 8th line there is the char name
-        //As the name is also splited by spaces, from the 10th(16 in Linux) space there is the name
+        //As the name is also splited by spaces, from the 10th(16th in Linux) space there is the name
         for (int i = 10; i < nameSplitted.length; i++)
             charInfoSource += nameSplitted[i] + " ";
 
@@ -131,13 +131,17 @@ public class IntelReader {
                 //Get the reported System
                 for (int j = 0; j < starSystems.length-1; j++) {
                     
-                    if(halved[1].contains(starSystems[j]))
-                        systemReported.add(starSystems[j]);
+                    if(halved[1].contains(starSystems[j])){
                     
+                        systemReported.add(starSystems[j]);
+                        break;
+                    
+                    }
+
                 }
                 
                 //If in the below for there is no coincidende, we add message to the report
-                if(systemReported.size() != reporter.size())
+                if(systemReported.size() < reporter.size())
                     systemReported.add("System not in map");
                 //End get the reported system
                 
@@ -162,10 +166,18 @@ public class IntelReader {
         
         updateIntelArrays();
         
-        lastReport[0] = reportTime.get(reportTime.size()-1) + "";
-        lastReport[1] = reporter.get(reporter.size()-1);
-        lastReport[2] = systemReported.get(systemReported.size()-1);
-        lastReport[3] = extraInfo.get(extraInfo.size()-1);
+        try {
+            lastReport[0] = reportTime.get(reportTime.size()-1) + "";
+            lastReport[1] = reporter.get(reporter.size()-1);
+            lastReport[2] = systemReported.get(systemReported.size()-1);
+            lastReport[3] = extraInfo.get(extraInfo.size()-1);
+        } catch (Exception e) {
+            
+            shared.getDbUtils().log("**ERROR GETTING THE LAST REPORT - RESTART THE PROGRAM**");
+            shared.getDbUtils().log("Known bug - Happens when pressing search and finding a new char's intel file.");
+            shared.getDbUtils().log("It's being investigated. Restart the application.");
+            
+        }
         
         return lastReport;
         
