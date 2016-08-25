@@ -20,8 +20,6 @@
 
 package rattingadvisor;
 
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Anibal
@@ -37,14 +35,30 @@ public class AlertLauncher {
         
     }
     
-    public void launchAlarm(String[] report){
+    public void launchAlarm(final String[] report){
         
         shared.getDbUtils().log("Musica Maestro");
-        Thread sound = new MediaPlayer(shared.getAlarmSoundPath());
+        final Thread sound = new MediaPlayer(shared.getAlarmSoundPath());
         
         sound.start();
-        JOptionPane.showMessageDialog(null, "Neutral detected in range!\nReporter: " + report[1] + "\nSystem: " + report[2] + "\nFull Message: \n\"" + report[3] + "\"", "Neutral Detected", JOptionPane.WARNING_MESSAGE);
-        sound.stop();
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                AlertWindow dialog = new AlertWindow(new javax.swing.JFrame(), true, report);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        
+                        sound.stop();
+                        
+                    }
+                });
+                dialog.setVisible(true);
+                dialog.setAlwaysOnTop(true);
+                dialog.setAutoRequestFocus(true);
+                dialog.setResizable(false);
+            }
+        });
         
     }
     

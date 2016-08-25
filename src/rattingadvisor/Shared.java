@@ -20,7 +20,9 @@
 
 package rattingadvisor;
 
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  *
@@ -40,7 +42,9 @@ public class Shared {
     private static volatile String alarmSoundPath;
     private static volatile boolean checkLocal;
     private static volatile boolean checkShield;
-    private static volatile JTextArea logTextArea;
+    private static volatile JTextArea logTextAreaMainWindow;
+    private static volatile JTextField rattingSystemTextMainWindow;
+    private static volatile JSpinner maxJumpsMainWindow;
     private static volatile FileManager fileManager;
     private static volatile MapLogic mapLogic;
     private static volatile IntelReader intelReader;
@@ -50,6 +54,22 @@ public class Shared {
     private static volatile boolean keepsGettingSystems;
     private static volatile String[] allSystems;
     //End Shared Variables
+
+    public JTextField getRattingSystemTextMainWindow() {
+        return rattingSystemTextMainWindow;
+    }
+
+    public void setRattingSystemTextMainWindow(JTextField aRattingSystemTextMainWindow) {
+        rattingSystemTextMainWindow = aRattingSystemTextMainWindow;
+    }
+
+    public JSpinner getMaxJumpsMainWindow() {
+        return maxJumpsMainWindow;
+    }
+
+    public void setMaxJumpsMainWindow(JSpinner aMaxJumpsMainWindow) {
+        maxJumpsMainWindow = aMaxJumpsMainWindow;
+    }
 
     public String[] getAllSystems() {
         return allSystems;
@@ -120,8 +140,8 @@ public class Shared {
         return checkShield;
     }
 
-    public JTextArea getLogTextArea() {
-        return logTextArea;
+    public JTextArea getLogTextAreaMainWindow() {
+        return logTextAreaMainWindow;
     }
 
     public FileManager getFileManager() {
@@ -168,8 +188,8 @@ public class Shared {
         this.checkShield = checkShield;
     }
 
-    public void setLogTextArea(JTextArea logTextArea) {
-        this.logTextArea = logTextArea;
+    public void setLogTextAreaMainWindow(JTextArea logTextAreaMainWindow) {
+        this.logTextAreaMainWindow = logTextAreaMainWindow;
     }
 
     public void setFileManager(FileManager fileManager) {

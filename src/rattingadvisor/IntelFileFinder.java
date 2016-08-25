@@ -49,7 +49,7 @@ public class IntelFileFinder {
         
         if(!dir.isDirectory()) {
         
-            shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\nInvalid chat log directory, check the path in settings.");
+            shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\nInvalid chat log directory, check the path in settings.");
             return "";
         
         }

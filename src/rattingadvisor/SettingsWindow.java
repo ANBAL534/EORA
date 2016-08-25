@@ -24,7 +24,6 @@ import java.awt.Point;
 import java.io.File;
 import java.awt.event.WindowEvent;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 /**
  *
  * @author Anibal
@@ -272,6 +271,7 @@ public class SettingsWindow extends javax.swing.JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         
         FileManager fileManager = new FileManager();
+        Shared shared = new Shared();
         String oldFile, newFile;
         
         oldFile = fileManager.ReadFile("settings.cfg");
@@ -288,7 +288,7 @@ public class SettingsWindow extends javax.swing.JFrame {
         
         fileManager.WriteFile("settings.cfg", newFile);
         
-        JOptionPane.showMessageDialog(null, "An app restart is needed in order to load the default values.", "Restart Needed", JOptionPane.INFORMATION_MESSAGE);
+        InitializeShared initializeShared = new InitializeShared(shared.getLogTextAreaMainWindow(), shared.getRattingSystemTextMainWindow(), shared.getMaxJumpsMainWindow());
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         
     }//GEN-LAST:event_saveButtonActionPerformed

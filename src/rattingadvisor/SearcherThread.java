@@ -47,17 +47,17 @@ public class SearcherThread extends Thread{
                     if(currentReport[2].equals(shared.getSystemsInRange()[i])){
                         
                         new AlertLauncher().launchAlarm(currentReport);
-                        shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**********************\nNeutral detected in range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
+                        shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**********************\nNeutral detected in range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
                         
                     }
                     
                 }
                 
-                shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**********************\nNeutral detected\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
+                shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**********************\nNeutral detected\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
                 
             }
             
-            shared.getLogTextArea().setCaretPosition(shared.getLogTextArea().getDocument().getLength());
+            shared.getLogTextAreaMainWindow().setCaretPosition(shared.getLogTextAreaMainWindow().getDocument().getLength());
             
             try {
                 Thread.sleep(1000);

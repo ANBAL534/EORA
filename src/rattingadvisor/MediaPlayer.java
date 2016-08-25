@@ -61,7 +61,7 @@ public class MediaPlayer extends Thread{
     	
         if (!filename.toLowerCase().endsWith(".mp3") && !filename.toLowerCase().endsWith(".ogg") && !filename.toLowerCase().endsWith(".wav"))
         {
-            shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**ERROR ALARM SOUND FILE NOT SUPPORTED**");
+            shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**ERROR ALARM SOUND FILE NOT SUPPORTED**");
         }
         else
         {
@@ -142,19 +142,19 @@ public class MediaPlayer extends Thread{
 			playSound();
 		} catch (FileNotFoundException e) {
 			
-                    shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**ERROR ALARM SOUND FILE NOT FOUND**");
+                    shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**ERROR ALARM SOUND FILE NOT FOUND**");
                     
 		} catch (UnsupportedAudioFileException e) {
 			
-                    shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**ERROR ALARM SOUND FILE NOT SUPPORTED**");
+                    shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**ERROR ALARM SOUND FILE NOT SUPPORTED**");
                     
 		} catch (IOException e) {
 			
-                    shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**ERROR READING THE ALARM SOUND FILE**");
+                    shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**ERROR READING THE ALARM SOUND FILE**");
                     
 		} catch (LineUnavailableException e) {
 			
-                    shared.getLogTextArea().setText(shared.getLogTextArea().getText() + "\n**ERROR ALARM SOUND FILE LOCKED BY OTHER PROGRAM**");
+                    shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**ERROR ALARM SOUND FILE LOCKED BY OTHER PROGRAM**");
                     
 		}	
 	}

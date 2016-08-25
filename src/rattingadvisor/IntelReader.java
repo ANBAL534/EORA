@@ -89,13 +89,13 @@ public class IntelReader {
         extraInfo = new ArrayList<String>();
         
         rawSplitted = raw.split("\n");
-        nameSplitted = rawSplitted[10].split(" ");//In the 8th line there is the char name
+        nameSplitted = rawSplitted[10].split(" ");//In the 10th line there is the char name
         //As the name is also splited by spaces, from the 10th(16th in Linux) space there is the name
         for (int i = 10; i < nameSplitted.length; i++)
             charInfoSource += nameSplitted[i] + " ";
 
-        //The first 26 lines are static and not useful
-        for (int i = 26; i < rawSplitted.length-3; i++) {
+        //The first 15 lines are static and not useful
+        for (int i = 15; i < rawSplitted.length-3; i++) {
             
             //The odd lines are always empty
             if((i%2)==0){
@@ -174,7 +174,6 @@ public class IntelReader {
         } catch (Exception e) {
             
             shared.getDbUtils().log("**ERROR GETTING THE LAST REPORT - RESTART THE PROGRAM**");
-            shared.getDbUtils().log("Known bug - Happens when pressing search and finding a new char's intel file.");
             shared.getDbUtils().log("It's being investigated. Restart the application.");
             
         }
@@ -189,10 +188,20 @@ public class IntelReader {
         int comparationTime;
         
         updateIntelArrays();
-        comparationTime = Integer.parseInt(report[0]);
         
-        if(comparationTime == reportTime.get(reportTime.size()-1))
-            return true;
+        try {
+            
+            comparationTime = Integer.parseInt(report[0]);
+            
+            if(comparationTime == reportTime.get(reportTime.size()-1))
+                return true;
+            return false;
+            
+        } catch (Exception e) {
+           shared.getDbUtils().log("**ERROR PARSING TIME FROM LAST REPORT - RESTART THE PROGRAM**");
+           shared.getDbUtils().log("It's being investigated. Restart the application.");
+        }
+        
         return false;
         
     }

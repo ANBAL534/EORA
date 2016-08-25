@@ -23,7 +23,6 @@ package rattingadvisor;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
@@ -35,6 +34,7 @@ import org.jdesktop.application.FrameView;
 public class RattingAdvisorMainWindow extends FrameView {
 
     Thread searcher;
+    InitializeShared initializeShared;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -42,66 +42,11 @@ public class RattingAdvisorMainWindow extends FrameView {
         initComponents();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.1");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
-
-        initializeFieldsAndShared();
         
-    }
-    
-    private void initializeFieldsAndShared(){
-        
-        //Populate Shared Variables
-        Shared shared = new Shared();
-        IntelFileFinder intelFinder = new IntelFileFinder();
-        FileManager fileManager = new FileManager();
-        String raw = fileManager.ReadFile("settings.cfg");//Read the settings file
-        String[] variables = raw.split("\n");
-        String[] value;
-        String[] orderedValues = new String[7];
-        for (int i = 0; i < variables.length-1; i++) {
-            
-            value = variables[i].split("=");
-            orderedValues[i] = value[1];
-            
-        }
-        
-        //SET Default values
-        if(orderedValues[0].equals("None"))
-            orderedValues[0] = System.getProperty("user.home") + File.separatorChar + "Documents" + File.separatorChar + "EVE" + File.separatorChar + "logs" + File.separatorChar + "Chatlogs";
-        if(Integer.parseInt(orderedValues[3]) < 1)
-            orderedValues[3] = "3";
-        if(orderedValues[4].equals("None"))
-            orderedValues[4] = "pilarManAwaken.wav";
-        //END set default values
-        
-        shared.setChatLogsPath(orderedValues[0]);
-        shared.setIntelChannelName(orderedValues[1]);
-        shared.setRattingSystemName(orderedValues[2]);
-        shared.setMaxJumpsNumber(Integer.parseInt(orderedValues[3]));
-        shared.setAlarmSoundPath(orderedValues[4]);
-        shared.setCheckLocal(false);
-        shared.setCheckShield(false);
-        shared.setMapDbPath("Deklein.db");
-        shared.setDbUtils(new DbUtils(shared.getMapDbPath(), logTextArea));
-        shared.setLogTextArea(logTextArea);
-        shared.setFileManager(new FileManager());
-        shared.setMapLogic(new MapLogic());
-        shared.setIntelReader(new IntelReader(intelFinder.pathToLastIntelFile(shared.getChatLogsPath(), shared.getIntelChannelName())));
-        shared.setStillSearching(true);
-        shared.setSystemsInRange(shared.getMapLogic().mapSearcher(shared.getRattingSystemName(), shared.getMaxJumpsNumber()));
-        shared.setKeepsGettingSystems(false);
-        //End Populate Shared Variables
-        
-        //Set Default Values for the MainWindow TextAreas
-        rattingSystemText.setText(shared.getRattingSystemName());
-        maxJumps.setValue(shared.getMaxJumpsNumber());
-        //END Set Default Values for the MainWindow TextAreas
-        
-        //Launch the GetSystems Thread
-        Thread getSystemsThread = new GetSystemsThread();
-        getSystemsThread.start();
+        initializeShared = new InitializeShared(logTextArea, rattingSystemText, maxJumps);
         
     }
 
@@ -386,7 +331,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         
         JOptionPane.showMessageDialog(null, "Renember only the last game session opened's intel channel will be chosen\neven if that game session is closed.", "New Session Search", JOptionPane.INFORMATION_MESSAGE);
-        initializeFieldsAndShared();
+        initializeShared = new InitializeShared(logTextArea, rattingSystemText, maxJumps);
         
     }//GEN-LAST:event_searchButtonActionPerformed
 
