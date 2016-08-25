@@ -19,6 +19,8 @@
  */
 package rattingadvisor;
 
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author Anibal
@@ -32,6 +34,11 @@ public class AlertWindow extends javax.swing.JDialog {
     public AlertWindow(java.awt.Frame parent, boolean modal, String[] report) {
         super(parent, modal);
         initComponents();
+        
+        reporterLabel.setText(report[1]);
+        systemReportedLabel.setText(report[2]);
+        fullMessageLabel.setText(report[3]);
+        
     }
 
     /**
@@ -95,6 +102,11 @@ public class AlertWindow extends javax.swing.JDialog {
 
         acceptButton.setText(resourceMap.getString("acceptButton.text")); // NOI18N
         acceptButton.setName("acceptButton"); // NOI18N
+        acceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                acceptButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -155,6 +167,13 @@ public class AlertWindow extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
+        
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        
+    }//GEN-LAST:event_acceptButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptButton;
     private javax.swing.JLabel fullMessageLabel;
