@@ -20,7 +20,6 @@
 
 package rattingadvisor;
 
-import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -42,7 +41,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         initComponents();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.2");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.3");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
         
