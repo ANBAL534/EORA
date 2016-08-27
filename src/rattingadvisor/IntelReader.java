@@ -21,6 +21,7 @@
 package rattingadvisor;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -93,61 +94,77 @@ public class IntelReader {
         //As the name is also splited by spaces, from the 10th(16th in Linux) space there is the name
         for (int i = 10; i < nameSplitted.length; i++)
             charInfoSource += nameSplitted[i] + " ";
-
-        //The first 15 lines are static and not useful
-        for (int i = 15; i < rawSplitted.length-3; i++) {
+        
+        try {
             
-            //The odd lines are always empty
-            if((i%2)==0){
-                
-                int time = 0;
-                String splitted;
-                String[] splittedText;
-                String[] halved;
-                String report;
+            //The first 16(26 in Linux) lines are static and not useful
+            for (int i = 16; i < rawSplitted.length-3; i++) {
+            
+                //The odd lines are always empty
+                if((i%2)==0){
 
-                //Get the time of the report
-                halved = rawSplitted[i].split("]");
-                splitted = halved[0];
+                    int time = 0;
+                    String splitted;
+                    String[] splittedText;
+                    String[] halved;
+                    String report;
 
-                halved = splitted.split(" ");
-                splitted = halved[2];
+                    //Get the time of the report
+                    halved = rawSplitted[i].split("]");
+                    splitted = halved[0];
 
-                halved = splitted.split(":");
-                time += Integer.parseInt(halved[0]);
-                time = (time*60)*60;
-                time += (Integer.parseInt(halved[1])*60);
-                time += Integer.parseInt(halved[2]);
-                reportTime.add(time);
-                //End get the time of the report
-                
-                //Get the reporter
-                halved = rawSplitted[i].split(" ] ");
-                splitted = halved[1];
-                halved = splitted.split(" > ");
-                reporter.add(halved[0]);
-                //End get the reporter
-                
-                //Get the reported System
-                for (int j = 0; j < starSystems.length-1; j++) {
-                    
-                    if(halved[1].contains(starSystems[j])){
-                    
-                        systemReported.add(starSystems[j]);
-                        break;
-                    
+                    halved = splitted.split(" ");
+                    splitted = halved[2];
+
+                    halved = splitted.split(":");
+                    time += Integer.parseInt(halved[0]);
+                    time = (time*60)*60;
+                    time += (Integer.parseInt(halved[1])*60);
+                    time += Integer.parseInt(halved[2]);
+                    reportTime.add(time);
+                    //End get the time of the report
+
+                    //Get the reporter
+                    halved = rawSplitted[i].split(" ] ");
+                    splitted = halved[1];
+                    halved = splitted.split(" > ");
+                    reporter.add(halved[0]);
+                    //End get the reporter
+
+                    //Get the reported System
+                    for (int j = 0; j < starSystems.length-1; j++) {
+
+                        if(halved[1].contains(starSystems[j])){
+
+                            systemReported.add(starSystems[j]);
+                            break;
+
+                        }
+
                     }
 
+                    //If in the below for there is no coincidende, we add message to the report
+                    if(systemReported.size() < reporter.size())
+                        systemReported.add("System not in map");
+                    //End get the reported system
+
+                    extraInfo.add(halved[1]);//We add the original report
+
                 }
-                
-                //If in the below for there is no coincidende, we add message to the report
-                if(systemReported.size() < reporter.size())
-                    systemReported.add("System not in map");
-                //End get the reported system
-                
-                extraInfo.add(halved[1]);//We add the original report
-                
+
             }
+            
+        } catch (Exception e) {
+            
+            shared.getDbUtils().log("\n**ERROR READING INTEL LOG FILE - RESTART EVE ONLINE**");
+            shared.getDbUtils().log("**This is a EVE Online's problem writting log files. \nRestart at least one EVE client and search for a new char's session**");
+            
+            final Thread sound = new MediaPlayer(shared.getAlarmSoundPath());
+            sound.start();
+            JOptionPane.showMessageDialog(null, "ERROR READING INTEL LOG FILE - RESTART EVE ONLINE\nMore info at Log panel.", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            sound.stop();
+            
+            throw new Error("ERROR READING INTEL LOG FILE - RESTART EVE ONLINE");
             
         }
         
@@ -174,7 +191,7 @@ public class IntelReader {
         } catch (Exception e) {
             
             shared.getDbUtils().log("**ERROR GETTING THE LAST REPORT - RESTART THE PROGRAM**");
-            shared.getDbUtils().log("It's being investigated. Restart the application.");
+            shared.getDbUtils().log("It's being investigated. Search for a new char's session.");
             
         }
         
