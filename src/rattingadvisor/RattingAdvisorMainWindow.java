@@ -57,7 +57,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         initComponents();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.4");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.5");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
 
