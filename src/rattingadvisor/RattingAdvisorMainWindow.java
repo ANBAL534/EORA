@@ -20,6 +20,13 @@
 
 package rattingadvisor;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import org.apache.commons.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -34,6 +41,7 @@ public class RattingAdvisorMainWindow extends FrameView {
 
     Thread searcher;
     InitializeShared initializeShared;
+    int currentVersion = 13;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -44,8 +52,48 @@ public class RattingAdvisorMainWindow extends FrameView {
         getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.3");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
-        
+
+        //Initialization
         initializeShared = new InitializeShared(logTextArea, rattingSystemText, maxJumps);
+        
+        try {
+            
+            //Look for new versions
+            int newVersion;
+            String uri = "http://anibal.grupoedin.com/EORA/current.ver";
+            URL versionUrl;
+            versionUrl = new URL(uri);
+            File versionDest = new File("current.ver");
+            FileUtils.copyURLToFile(versionUrl, versionDest);
+
+            //Read the current version information
+            BufferedReader br = new BufferedReader(new FileReader(versionDest));
+            newVersion = Integer.parseInt(br.readLine());
+            
+            //Delete version file
+            versionDest.delete();
+            
+            //Test if it's needed to call the updater and call it
+            if(newVersion > currentVersion){
+                
+                //0 if accepted
+                int result = JOptionPane.showConfirmDialog(mainPanel, "New version of EVE Online Ratting Advisor is aviable.\nDo you want to update?", "New version available", JOptionPane.OK_CANCEL_OPTION);
+                
+                if(result == 0){
+                    
+                    String[] arguments = {"java", "-jar", "EORA_Updater.jar"};
+                    Runtime.getRuntime().exec(arguments);
+                    System.exit(0);
+                    
+                }
+                
+            }
+            
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RattingAdvisorMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RattingAdvisorMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 

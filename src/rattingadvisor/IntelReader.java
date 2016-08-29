@@ -98,7 +98,7 @@ public class IntelReader {
         try {
             
             //The first 16(26 in Linux) lines are static and not useful
-            for (int i = 16; i < rawSplitted.length-3; i++) {
+            for (int i = 14; i < rawSplitted.length-3; i++) {
             
                 //The odd lines are always empty
                 if((i%2)==0){
