@@ -92,12 +92,13 @@ public class IntelReader {
         rawSplitted = raw.split("\n");
         nameSplitted = rawSplitted[10].split(" ");//In the 10th line there is the char name
         //As the name is also splited by spaces, from the 10th(16th in Linux) space there is the name
+        
         for (int i = 10; i < nameSplitted.length; i++)
             charInfoSource += nameSplitted[i] + " ";
         
         try {
             
-            //The first 16(26 in Linux) lines are static and not useful
+            //The first 14(24 in Linux) lines are static and not useful
             for (int i = 14; i < rawSplitted.length-3; i++) {
             
                 //The odd lines are always empty

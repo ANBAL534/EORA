@@ -41,7 +41,7 @@ public class RattingAdvisorMainWindow extends FrameView {
 
     Thread searcher;
     InitializeShared initializeShared;
-    int currentVersion = 13;
+    int currentVersion = 14;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -49,7 +49,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         initComponents();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.3");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.4");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
 
@@ -69,6 +69,7 @@ public class RattingAdvisorMainWindow extends FrameView {
             //Read the current version information
             BufferedReader br = new BufferedReader(new FileReader(versionDest));
             newVersion = Integer.parseInt(br.readLine());
+            br.close();
             
             //Delete version file
             versionDest.delete();
@@ -81,7 +82,7 @@ public class RattingAdvisorMainWindow extends FrameView {
                 
                 if(result == 0){
                     
-                    String[] arguments = {"java", "-jar", "EORA_Updater.jar"};
+                    String[] arguments = {"java", "-jar", "EORA Updater.jar"};
                     Runtime.getRuntime().exec(arguments);
                     System.exit(0);
                     
