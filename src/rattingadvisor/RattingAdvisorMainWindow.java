@@ -41,7 +41,15 @@ public class RattingAdvisorMainWindow extends FrameView {
 
     Thread searcher;
     InitializeShared initializeShared;
-    int currentVersion = 14;
+    
+    /*
+    The currentVersion number and the showed version are no equal.
+    There might be currentVersion = 17 but the showed version 0.1.5
+    
+    Every time there needs to be a small update but not enough for a version
+    change, the same version gets auto-updated.
+    */
+    int currentVersion = 15;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -78,7 +86,7 @@ public class RattingAdvisorMainWindow extends FrameView {
             if(newVersion > currentVersion){
                 
                 //0 if accepted
-                int result = JOptionPane.showConfirmDialog(mainPanel, "New version of EVE Online Ratting Advisor is aviable.\nDo you want to update?", "New version available", JOptionPane.OK_CANCEL_OPTION);
+                int result = JOptionPane.showConfirmDialog(mainPanel, "New version of EVE Online Ratting Advisor is available.\nDo you want to update?", "New version available", JOptionPane.OK_CANCEL_OPTION);
                 
                 if(result == 0){
                     
@@ -86,14 +94,20 @@ public class RattingAdvisorMainWindow extends FrameView {
                     Runtime.getRuntime().exec(arguments);
                     System.exit(0);
                     
+                }else{
+                    
+                    new Shared().getDbUtils().log("You are using a DEPRECATED version of Ratting Advisor.");
+                    
                 }
                 
+            }else{
+                    
+                new Shared().getDbUtils().log("You are using the latest version of Ratting Advisor.");
+                    
             }
             
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(RattingAdvisorMainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(RattingAdvisorMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            new Shared().getDbUtils().log("The program have been unable of getting the latest version of Ratting Advisor.");
         }
         
     }
