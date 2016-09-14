@@ -50,6 +50,7 @@ public class SettingsWindow extends javax.swing.JFrame {
         maxJumps.setValue(shared.getMaxJumpsNumber());
         alarmSoundPath.setText(shared.getAlarmSoundPath());
         
+        //*UNUSED*
         //Set controls to make mandatory press the save button
         if(firstStart){
             

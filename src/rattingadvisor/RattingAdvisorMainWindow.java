@@ -49,7 +49,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     Every time there needs to be a small update but not enough for a version
     change, the same version gets auto-updated.
     */
-    int currentVersion = 15;
+    int currentVersion = 16;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -57,7 +57,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         initComponents();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.5");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.6");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
 
@@ -141,6 +141,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         jScrollPane2 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
         clearLogButton = new javax.swing.JButton();
+        newTimer = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
 
         mainPanel.setMaximumSize(new java.awt.Dimension(600, 400));
@@ -240,6 +241,14 @@ public class RattingAdvisorMainWindow extends FrameView {
             }
         });
 
+        newTimer.setText(resourceMap.getString("newTimer.text")); // NOI18N
+        newTimer.setName("newTimer"); // NOI18N
+        newTimer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTimerActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -265,26 +274,34 @@ public class RattingAdvisorMainWindow extends FrameView {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(18, 18, 18)
-                                .addComponent(searchButton)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(shieldAlarm)
-                            .addComponent(checkNeutrals)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8)))))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(startButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(stopButton)
-                        .addGap(143, 143, 143)
-                        .addComponent(clearLogButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
-                        .addComponent(settingsButton)))
+                                    .addComponent(jLabel9)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addComponent(startButton)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(stopButton)))
+                                .addGap(18, 18, 18)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(clearLogButton))
+                                    .addComponent(searchButton))))
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(shieldAlarm)
+                                    .addComponent(checkNeutrals)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addGap(21, 21, 21)
+                                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7)
+                                            .addComponent(jLabel8)))))
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(newTimer)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(settingsButton)))))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -322,7 +339,8 @@ public class RattingAdvisorMainWindow extends FrameView {
                     .addComponent(startButton)
                     .addComponent(stopButton)
                     .addComponent(settingsButton)
-                    .addComponent(clearLogButton))
+                    .addComponent(clearLogButton)
+                    .addComponent(newTimer))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -403,6 +421,17 @@ public class RattingAdvisorMainWindow extends FrameView {
         
     }//GEN-LAST:event_clearLogButtonActionPerformed
 
+    private void newTimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTimerActionPerformed
+        
+        /* Create and display the timer form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TimerWindow(getFrame().getLocation()).setVisible(true);
+            }
+        });
+        
+    }//GEN-LAST:event_newTimerActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkNeutrals;
     private javax.swing.JButton clearLogButton;
@@ -419,6 +448,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     private javax.swing.JTextArea logTextArea;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JSpinner maxJumps;
+    private javax.swing.JButton newTimer;
     private javax.swing.JTextField rattingSystemText;
     private javax.swing.JButton searchButton;
     private javax.swing.JButton settingsButton;

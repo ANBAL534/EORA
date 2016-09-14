@@ -20,6 +20,7 @@
 package rattingadvisor;
 
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -77,6 +78,7 @@ public class InitializeShared {
             shared.setStillSearching(true);
             shared.setSystemsInRange(shared.getMapLogic().mapSearcher(shared.getRattingSystemName(), shared.getMaxJumpsNumber()));
             shared.setKeepsGettingSystems(false);
+            shared.setStopTimerMusic(new ArrayList<Boolean>());
             //End Populate Shared Variables
 
             //Set Default Values for the MainWindow TextAreas

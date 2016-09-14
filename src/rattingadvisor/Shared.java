@@ -20,6 +20,7 @@
 
 package rattingadvisor;
 
+import java.util.ArrayList;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -53,7 +54,16 @@ public class Shared {
     private static volatile boolean stillSearching;
     private static volatile boolean keepsGettingSystems;
     private static volatile String[] allSystems;
+    private static volatile ArrayList<Boolean> stopTimerMusic;
     //End Shared Variables
+
+    public ArrayList<Boolean> getStopTimerMusic() {
+        return stopTimerMusic;
+    }
+
+    public void setStopTimerMusic(ArrayList<Boolean> aStopTimerMusic) {
+        stopTimerMusic = aStopTimerMusic;
+    }
 
     public JTextField getRattingSystemTextMainWindow() {
         return rattingSystemTextMainWindow;
