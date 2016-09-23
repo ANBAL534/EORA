@@ -49,7 +49,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     Every time there needs to be a small update but not enough for a version
     change, the same version gets auto-updated.
     */
-    int currentVersion = 16;
+    int currentVersion = 17;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -57,7 +57,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         initComponents();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.6");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.7");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
 
