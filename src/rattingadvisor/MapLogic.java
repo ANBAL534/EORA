@@ -30,7 +30,8 @@ public class MapLogic {
     
     private Shared shared = new Shared();
     
-    public String[] mapSearcher(final String startSystem, final int jumpsMax){
+    @Deprecated
+    public String[] mapSearcherLegacy(final String startSystem, final int jumpsMax){
         
         //Variables
         ArrayList<String> notSearchedYetJumps = new ArrayList<String>();
@@ -90,6 +91,77 @@ public class MapLogic {
             finalInRange[0] = "";
             
         }
+        return finalInRange;
+        
+    }
+    
+    public String[] mapSearcher(final String startSystem, final int jumpsMax){
+        
+        ArrayList<String> notSearchedYet = new ArrayList<String>();
+        ArrayList<String> inRange = new ArrayList<String>();
+        String[] finalInRange;
+        int jumpsAway = 0;
+        
+        //Add the origin system to the pending for search list
+        notSearchedYet.add(startSystem);
+        inRange.add(startSystem);
+        
+        //Search for the systems in range
+        while (jumpsAway <= jumpsMax) {
+            
+            int chunck = notSearchedYet.size();
+            for (int i = 0; i < chunck; i++) {
+                
+                //Search for the pending system's connections and add them to the search
+                for (int j = 0; j < shared.getDbUtils().getRowFromOrigin(notSearchedYet.get(i)).length; j++) {
+                    
+                    String toAdd = shared.getDbUtils().getRowFromOrigin(notSearchedYet.get(i))[j];
+                    
+                    if(!toAdd.isEmpty() && !toAdd.equalsIgnoreCase(shared.getDbUtils().getRowFromOrigin(notSearchedYet.get(i))[0]) && !inRange.contains(toAdd)){
+                        
+                        notSearchedYet.add(toAdd);
+                        
+                    }
+                    
+                }
+                
+                //Add the searched systems to the inRange list
+                if(!inRange.contains(notSearchedYet.get(i)))
+                    inRange.add(notSearchedYet.get(i));
+                
+            }
+            
+            //Delete from list searched systems
+            for (int i = 0; i < chunck; i++) {
+                
+                notSearchedYet.remove(0);
+                
+            }
+            
+            jumpsAway++;
+            
+        }
+        
+        //Return and log a standar array with the in range systems
+        if(inRange.size() > 0){
+            
+            finalInRange = inRange.toArray(new String[inRange.size()-1]);
+            
+        }else{
+            
+            finalInRange = new String[1];
+            finalInRange[0] = "";
+            
+        }
+        
+        //Log the in range systems
+        shared.getDbUtils().log("Systems in alarm range:");
+        for (int i = 0; i < finalInRange.length; i++) {
+            
+            shared.getDbUtils().log("- " + finalInRange[i]);
+            
+        }
+        
         return finalInRange;
         
     }

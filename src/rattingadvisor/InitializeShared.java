@@ -67,7 +67,7 @@ public class InitializeShared {
             shared.setAlarmSoundPath(orderedValues[4]);
             shared.setCheckLocal(false);
             shared.setCheckShield(false);
-            shared.setMapDbPath("Deklein.db");
+            shared.setMapDbPath("EVEMap.db");
             shared.setDbUtils(new DbUtils(shared.getMapDbPath(), log));
             shared.setLogTextAreaMainWindow(log);
             shared.setRattingSystemTextMainWindow(rattingSystem);

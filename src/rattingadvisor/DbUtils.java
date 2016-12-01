@@ -259,7 +259,7 @@ public class DbUtils {
                     result[8] = rs.getString("CONNECTION8");
                     result[9] = rs.getString("CONNECTION9");
                     result[10] = rs.getString("CONNECTION10");
-                    log("Connections data from " + systemName + " found.");
+                    //log("Connections data from " + systemName + " found.");
                     break;
                 
                 }
@@ -305,7 +305,7 @@ public class DbUtils {
                     result[8] = rs.getString("CONNECTION8");
                     result[9] = rs.getString("CONNECTION9");
                     result[10] = rs.getString("CONNECTION10");
-                    log("Connections data from ID: " + id + " (" + result[0] + ") found.");
+                    //log("Connections data from ID: " + id + " (" + result[0] + ") found.");
                     break;
                 
                 }

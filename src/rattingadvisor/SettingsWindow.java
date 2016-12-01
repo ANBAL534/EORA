@@ -96,6 +96,7 @@ public class SettingsWindow extends javax.swing.JFrame {
         alarmSoundPath = new javax.swing.JTextPane();
         changeSoundButton = new javax.swing.JButton();
         changeLogsPathButton = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -172,6 +173,9 @@ public class SettingsWindow extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
+        jLabel8.setName("jLabel8"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,7 +217,10 @@ public class SettingsWindow extends javax.swing.JFrame {
                                     .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(logPath, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
@@ -241,7 +248,8 @@ public class SettingsWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -277,6 +285,19 @@ public class SettingsWindow extends javax.swing.JFrame {
         
         oldFile = fileManager.ReadFile("settings.cfg");
         fileManager.NewFile("settings.cfg");
+        
+        //Detect if the selected audio file is other than wav and if so, convert it
+        //and change the path of the alarm sound
+        if(alarmSoundPath.getText().endsWith("mp3")){
+            
+            File mp3 = new File(alarmSoundPath.getText());
+            File wav = new File("converted.wav");
+            Thread converter = new ConvertMp3toWavThread(mp3, wav);
+            
+            converter.start();
+            alarmSoundPath.setText("converted.wav");
+            
+        }
         
         //STUB
         newFile = "ChatLogsPath=" + logPath.getText() + "\n"
@@ -349,6 +370,7 @@ public class SettingsWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField logPath;
     private javax.swing.JSpinner maxJumps;

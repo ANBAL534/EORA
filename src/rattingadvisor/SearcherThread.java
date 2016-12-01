@@ -60,7 +60,7 @@ public class SearcherThread extends Thread{
             shared.getLogTextAreaMainWindow().setCaretPosition(shared.getLogTextAreaMainWindow().getDocument().getLength());
             
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException ex) {
                 Logger.getLogger(SearcherThread.class.getName()).log(Level.SEVERE, null, ex);
             }

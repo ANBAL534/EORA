@@ -23,8 +23,6 @@ package rattingadvisor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.commons.io.*;
 import java.util.logging.Level;
@@ -49,7 +47,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     Every time there needs to be a small update but not enough for a version
     change, the same version gets auto-updated.
     */
-    int currentVersion = 17;
+    int currentVersion = 18;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -57,7 +55,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         initComponents();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.7");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.8");
         getFrame().setResizable(false);//We do not want to let people resize the window
         //End Frame Settings
 
@@ -103,6 +101,7 @@ public class RattingAdvisorMainWindow extends FrameView {
             }else{
                     
                 new Shared().getDbUtils().log("You are using the latest version of Ratting Advisor.");
+                new AfterUpdateCleaner().clean();
                     
             }
             

@@ -20,6 +20,14 @@
 package rattingadvisor;
 
 import java.awt.Point;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,6 +50,38 @@ public class TimerWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocation(p);
         
+        
+        
+        try {
+            
+            //Read from default file the default times and set them
+            File defaultTime = new File("timer.cfg");
+            String timeLine;
+            String[] timeSplit;
+            BufferedReader br = new BufferedReader(new FileReader(defaultTime));
+            
+            /*
+            timer.cfg
+               [0][1][2]
+               HH:MM:SS
+            */
+            timeLine = br.readLine();
+            timeSplit = timeLine.split(":");
+            
+            hour.setText(timeSplit[0]);
+            minute.setText(timeSplit[1]);
+            second.setText(timeSplit[2]);
+            
+        } catch (Exception ex) {
+            
+            shared.getDbUtils().log("Defaut timer file not found, set to 0.");
+            
+            hour.setText("0");
+            minute.setText("0");
+            second.setText("0");
+            
+        }
+        
     }
 
     /**
@@ -62,7 +102,7 @@ public class TimerWindow extends javax.swing.JFrame {
         startStopCD = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         idTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        setDefaultTime = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -101,8 +141,13 @@ public class TimerWindow extends javax.swing.JFrame {
         idTextField.setText(resourceMap.getString("idTextField.text")); // NOI18N
         idTextField.setName("idTextField"); // NOI18N
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
+        setDefaultTime.setText(resourceMap.getString("setDefaultTime.text")); // NOI18N
+        setDefaultTime.setName("setDefaultTime"); // NOI18N
+        setDefaultTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setDefaultTimeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,7 +179,7 @@ public class TimerWindow extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(startStopCD, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(setDefaultTime, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -155,7 +200,7 @@ public class TimerWindow extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(startStopCD)
-                    .addComponent(jButton1))
+                    .addComponent(setDefaultTime))
                 .addContainerGap())
         );
 
@@ -216,16 +261,34 @@ public class TimerWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_startStopCDActionPerformed
 
+    private void setDefaultTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setDefaultTimeActionPerformed
+        
+        try {
+            
+            File defaultTime = new File("timer.cfg");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(defaultTime));
+            
+            bw.write(hour.getText() + ":" + minute.getText() + ":" + second.getText());
+            bw.close();
+            
+        } catch (IOException ex) {
+            
+            shared.getDbUtils().log("**ERROR SETTING DEFAULT TIME**\nThere is no problem in scanning.");
+            
+        }
+        
+    }//GEN-LAST:event_setDefaultTimeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField hour;
     private javax.swing.JTextField idTextField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField minute;
     private javax.swing.JTextField second;
+    private javax.swing.JButton setDefaultTime;
     private javax.swing.JButton startStopCD;
     // End of variables declaration//GEN-END:variables
 }
