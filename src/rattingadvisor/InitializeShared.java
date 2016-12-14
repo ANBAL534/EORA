@@ -40,18 +40,27 @@ public class InitializeShared {
             Shared shared = new Shared();
             IntelFileFinder intelFinder = new IntelFileFinder();
             FileManager fileManager = new FileManager();
-            String raw = fileManager.ReadFile("settings.cfg");//Read the settings file
-            String[] variables = raw.split("\n");
-            String[] value;
-            String[] orderedValues = new String[7];
-            for (int i = 0; i < variables.length; i++) {
-
-                value = variables[i].split("=");
-                orderedValues[i] = value[1];
-
-            }
+            SettingsManager settingsManager = new SettingsManager();
+            
+            String[] orderedValues = settingsManager.getOrderedValues();
 
             //SET Default values
+            if(settingsManager.getSetting("IntelChannel").equals("GOTG_Intel")){
+                //If the intel channel still beign the old one we reset the settings file
+                settingsManager.setDefaults();
+            }
+            
+            //Add all the settings that may be missing in the file
+            if(settingsManager.numberOfSettings() < settingsManager.getDefaultKeys().length){
+                
+                for (int i = 0; i < settingsManager.getDefaultKeys().length; i++) {
+                    
+                    settingsManager.addSetting(settingsManager.getDefaultKeys()[i], "None");
+                    
+                }
+                
+            }
+            
             if(orderedValues[0].equals("None"))
                 orderedValues[0] = System.getProperty("user.home") + File.separatorChar + "Documents" + File.separatorChar + "EVE" + File.separatorChar + "logs" + File.separatorChar + "Chatlogs";
             if(Integer.parseInt(orderedValues[3]) < 1)
@@ -93,6 +102,7 @@ public class InitializeShared {
         } catch (Exception e) {
             
             JOptionPane.showMessageDialog(null, "It seems that the instalation of the program is incomplete.\nOne or more files are missing in the folder.\n\nPress OK to exit.", "Installation Error", JOptionPane.OK_OPTION);
+            System.out.println(e.toString());
             System.exit(-1);
             
         }

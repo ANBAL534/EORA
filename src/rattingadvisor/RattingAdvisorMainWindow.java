@@ -20,6 +20,7 @@
 
 package rattingadvisor;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -39,6 +40,7 @@ public class RattingAdvisorMainWindow extends FrameView {
 
     Thread searcher;
     InitializeShared initializeShared;
+    SettingsManager settingsManager;
     
     /*
     The currentVersion number and the showed version are no equal.
@@ -47,16 +49,35 @@ public class RattingAdvisorMainWindow extends FrameView {
     Every time there needs to be a small update but not enough for a version
     change, the same version gets auto-updated.
     */
-    int currentVersion = 18;
+    int currentVersion = 19;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
 
         initComponents();
         
+        settingsManager = new SettingsManager();
+        
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.8");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.9");
         getFrame().setResizable(false);//We do not want to let people resize the window
+        if(settingsManager.getSetting("Style").equals("DARK")){
+            
+            mainPanel.setBackground(new Color(56, 56, 56));
+            logTextArea.setBackground(new Color(100, 100, 100));
+            checkNeutrals.setBackground(new Color(56, 56, 56));
+            shieldAlarm.setBackground(new Color(56, 56, 56));
+            rattingSystemText.setBackground(new Color(100, 100, 100));
+            maxJumps.setBackground(new Color(100, 100, 100));
+            startButton.setBackground(new Color(56, 56, 56));
+            stopButton.setBackground(new Color(56, 56, 56));
+            newTimer.setBackground(new Color(56, 56, 56));
+            clearLogButton.setBackground(new Color(56, 56, 56));
+            settingsButton.setBackground(new Color(56, 56, 56));
+            searchButton.setBackground(new Color(56, 56, 56));
+            
+        }//Else: it is light by default
+        
         //End Frame Settings
 
         //Initialization

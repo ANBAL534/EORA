@@ -24,6 +24,7 @@ import java.awt.Point;
 import java.io.File;
 import java.awt.event.WindowEvent;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Anibal
@@ -67,6 +68,22 @@ public class SettingsWindow extends javax.swing.JFrame {
             
         }
         
+        SettingsManager settingsManager = new SettingsManager();
+        if(settingsManager.getSetting("Style").equals("DARK")){
+            
+            darkThemeCheck.setSelected(true);
+            
+        }else if(settingsManager.getSetting("Style").equals("LIGHT")){
+            
+            darkThemeCheck.setSelected(false);
+            
+        }else{
+            
+            darkThemeCheck.setSelected(false);
+            settingsManager.setSetting("Style", "LIGHT");
+            
+        }
+        
     }
 
     /**
@@ -91,12 +108,12 @@ public class SettingsWindow extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         maxJumps = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         alarmSoundPath = new javax.swing.JTextPane();
         changeSoundButton = new javax.swing.JButton();
         changeLogsPathButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        darkThemeCheck = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -140,6 +157,13 @@ public class SettingsWindow extends javax.swing.JFrame {
 
         rattingSystemText.setText(resourceMap.getString("rattingSystemText.text")); // NOI18N
         rattingSystemText.setName("rattingSystemText"); // NOI18N
+        rattingSystemText.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                
+            }
+        });
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
@@ -148,9 +172,6 @@ public class SettingsWindow extends javax.swing.JFrame {
 
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
-
-        jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
-        jLabel7.setName("jLabel7"); // NOI18N
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -176,6 +197,14 @@ public class SettingsWindow extends javax.swing.JFrame {
         jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
         jLabel8.setName("jLabel8"); // NOI18N
 
+        darkThemeCheck.setText(resourceMap.getString("darkThemeCheck.text")); // NOI18N
+        darkThemeCheck.setName("darkThemeCheck"); // NOI18N
+        darkThemeCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                darkThemeCheckActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,6 +216,9 @@ public class SettingsWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(darkThemeCheck)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -209,7 +241,6 @@ public class SettingsWindow extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(maxJumps, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
@@ -243,9 +274,9 @@ public class SettingsWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(intelChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(11, 11, 11)
+                .addComponent(darkThemeCheck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(rattingSystemText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,13 +331,22 @@ public class SettingsWindow extends javax.swing.JFrame {
         }
         
         //STUB
+        //Style selection for save
+        String theme;
+        if (darkThemeCheck.isSelected()) {
+            theme = "DARK";
+        } else {
+            theme = "LIGHT";
+        }
+        
         newFile = "ChatLogsPath=" + logPath.getText() + "\n"
                 + "IntelChannel=" + intelChannel.getText() + "\n"
                 + "RattingSystem=" + rattingSystemText.getText().toUpperCase() + "\n"
                 + "JumpsNumber=" + maxJumps.getValue() + "\n" 
                 + "AlarmSound=" + alarmSoundPath.getText() + "\n"
                 + "CheckLocal=" + "FALSE" + "\n"
-                + "CheckShield=" + "FALSE" + "\n";
+                + "CheckShield=" + "FALSE" + "\n"
+                + "Style=" + theme;
         
         fileManager.WriteFile("settings.cfg", newFile);
         
@@ -356,10 +396,27 @@ public class SettingsWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_changeLogsPathButtonActionPerformed
 
+    private void darkThemeCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkThemeCheckActionPerformed
+        
+        if(darkThemeCheck.isSelected()){
+            
+            new SettingsManager().setSetting("Style", "DARK");
+            
+        }else{
+            
+            new SettingsManager().setSetting("Style", "LIGHT");
+            
+        }
+            
+        JOptionPane.showMessageDialog(null, "Restart Ratting Advisor to changes take effect", "Restart needed", JOptionPane.INFORMATION_MESSAGE);
+        
+    }//GEN-LAST:event_darkThemeCheckActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane alarmSoundPath;
     private javax.swing.JButton changeLogsPathButton;
     private javax.swing.JButton changeSoundButton;
+    private javax.swing.JCheckBox darkThemeCheck;
     private javax.swing.JButton discardButton;
     private javax.swing.JTextField intelChannel;
     private javax.swing.JButton jButton3;
@@ -369,7 +426,6 @@ public class SettingsWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField logPath;

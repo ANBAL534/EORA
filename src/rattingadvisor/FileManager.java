@@ -125,15 +125,33 @@ public class FileManager {
     }
     
     public void AppendFile(String filePath, String data){
+        //Old style append system
         
         BufferedWriter bw = null;
+        BufferedReader br = null;
         
         try {
             
             File file = new File(filePath);
-            bw = new BufferedWriter(new FileWriter(file));
             
-            bw.append(data);
+            //Read the entire file
+            br = new BufferedReader(new FileReader(file));
+            
+            String line = "";
+            String full = "";
+            while ((line = br.readLine())!= null) {
+                
+                full += line + "\n";
+                
+            }
+            
+            br.close();
+            
+            full += data;
+            
+            bw = new BufferedWriter(new FileWriter(file));
+            bw.write(full);
+            bw.close();
             
         } catch (IOException ex) {
             System.out.println("**Error appending a file (NotFoundException)**");
