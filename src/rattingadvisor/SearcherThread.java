@@ -34,6 +34,11 @@ public class SearcherThread extends Thread{
     @Override
     public void run(){
         
+        /*
+        * Report array order:
+        *      [0]             [1]              [2]           [3]
+        * time in seconds, reporter name, system reported, extra info
+        */
         currentReport = shared.getIntelReader().getLastReport();
         
         do{
@@ -43,11 +48,23 @@ public class SearcherThread extends Thread{
                 currentReport = shared.getIntelReader().getLastReport();
                 
                 for (int i = 0; i < shared.getSystemsInRange().length; i++) {
-                    
+                    //Test if the system written in the report is in range
                     if(currentReport[2].equals(shared.getSystemsInRange()[i])){
+                        //if it is, we have to check if we want to launch an alarm
+                        //for status/?/clr/clear/etc.
+                        if(!shared.includeClear() && !(currentReport[3].toLowerCase().contains("status") || currentReport[3].toLowerCase().contains("pls") || currentReport[3].toLowerCase().contains("?") || currentReport[3].toLowerCase().contains("please") || currentReport[3].toLowerCase().contains("clr") || currentReport[3].toLowerCase().contains("clear"))){
+                            
+                            new AlertLauncher().launchAlarm(currentReport);
+                            shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**********************\nNeutral detected in range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
+                            
+                        }
                         
-                        new AlertLauncher().launchAlarm(currentReport);
-                        shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**********************\nNeutral detected in range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
+                        if(shared.includeClear()){
+                            
+                            new AlertLauncher().launchAlarm(currentReport);
+                            shared.getLogTextAreaMainWindow().setText(shared.getLogTextAreaMainWindow().getText() + "\n**********************\nNeutral detected in range!\nReporter: " + currentReport[1] + "\nSystem: " + currentReport[2] + "\nFull Message: \n\"" + currentReport[3] + "\"\n**********************");
+                            
+                        }
                         
                     }
                     

@@ -67,6 +67,7 @@ public class SettingsWindow extends javax.swing.JFrame {
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             
         }
+        //END - Set controls to make mandatory press the save button
         
         SettingsManager settingsManager = new SettingsManager();
         if(settingsManager.getSetting("Style").equals("DARK")){
@@ -83,6 +84,8 @@ public class SettingsWindow extends javax.swing.JFrame {
             settingsManager.setSetting("Style", "LIGHT");
             
         }
+        
+        includeClear.setSelected(Boolean.valueOf(settingsManager.getSetting("IncludeClear")));
         
     }
 
@@ -114,6 +117,7 @@ public class SettingsWindow extends javax.swing.JFrame {
         changeLogsPathButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         darkThemeCheck = new javax.swing.JCheckBox();
+        includeClear = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -157,13 +161,6 @@ public class SettingsWindow extends javax.swing.JFrame {
 
         rattingSystemText.setText(resourceMap.getString("rattingSystemText.text")); // NOI18N
         rattingSystemText.setName("rattingSystemText"); // NOI18N
-        rattingSystemText.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                
-            }
-        });
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
@@ -204,6 +201,9 @@ public class SettingsWindow extends javax.swing.JFrame {
                 darkThemeCheckActionPerformed(evt);
             }
         });
+
+        includeClear.setText(resourceMap.getString("includeClear.text")); // NOI18N
+        includeClear.setName("includeClear"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -257,7 +257,8 @@ public class SettingsWindow extends javax.swing.JFrame {
                                             .addComponent(logPath, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                                             .addComponent(intelChannel))
                                         .addGap(18, 18, 18)
-                                        .addComponent(changeLogsPathButton)))))
+                                        .addComponent(changeLogsPathButton))
+                                    .addComponent(includeClear))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -275,7 +276,9 @@ public class SettingsWindow extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(intelChannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addComponent(darkThemeCheck)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(darkThemeCheck)
+                    .addComponent(includeClear))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -346,7 +349,8 @@ public class SettingsWindow extends javax.swing.JFrame {
                 + "AlarmSound=" + alarmSoundPath.getText() + "\n"
                 + "CheckLocal=" + "FALSE" + "\n"
                 + "CheckShield=" + "FALSE" + "\n"
-                + "Style=" + theme;
+                + "Style=" + theme + "\n"
+                + "IncludeClear=" + String.valueOf(includeClear.isSelected()).toUpperCase();
         
         fileManager.WriteFile("settings.cfg", newFile);
         
@@ -418,6 +422,7 @@ public class SettingsWindow extends javax.swing.JFrame {
     private javax.swing.JButton changeSoundButton;
     private javax.swing.JCheckBox darkThemeCheck;
     private javax.swing.JButton discardButton;
+    private javax.swing.JCheckBox includeClear;
     private javax.swing.JTextField intelChannel;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;

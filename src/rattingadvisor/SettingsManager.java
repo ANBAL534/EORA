@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author Anibal
  */
 public class SettingsManager {
-                                    // 8 in total
+                                    // 9 in total
     private String[] defaultKeys = {"ChatLogsPath", 
                                     "IntelChannel", 
                                     "RattingSystem", 
@@ -34,13 +34,28 @@ public class SettingsManager {
                                     "AlarmSound", 
                                     "CheckLocal", 
                                     "CheckShield", 
-                                    "Style"};
+                                    "Style",
+                                    "IncludeClear"};
+    
+    private String[] defaultValues = {"None", 
+                                      "delve.imperium", 
+                                      "Q-02UL", 
+                                      "3", 
+                                      "None", 
+                                      "FALSE", 
+                                      "FALSE", 
+                                      "LIGHT",
+                                      "TRUE"};
 
     FileManager fileManager = new FileManager();
     Shared shared = new Shared();
     
     public String[] getDefaultKeys() {
         return defaultKeys;
+    }
+    
+    public String[] getDefaultValues() {
+        return defaultValues;
     }
     
     public String getSetting(String key){
@@ -123,7 +138,8 @@ public class SettingsManager {
 
         }
         
-        return (String[])orderedKeys.toArray();
+        String ordered[] = orderedKeys.toArray(new String[1]);
+        return ordered;
         
     }
     
@@ -168,15 +184,14 @@ public class SettingsManager {
     
     public void setDefaults(){
         
-        //Need to change every time we add new settings
-        fileManager.WriteFile("settings.cfg",   "ChatLogsPath=None\n" +
-                                                "IntelChannel=delve.imperium\n" +
-                                                "RattingSystem=Q-02UL\n" +
-                                                "JumpsNumber=3\n" +
-                                                "AlarmSound=None\n" +
-                                                "CheckLocal=FALSE\n" +
-                                                "CheckShield=FALSE\n" +
-                                                "Style=LIGHT");
+        String settingsDefault = "";
+        for (int i = 0; i < defaultKeys.length; i++) {
+            
+            settingsDefault += getDefaultKeys()[i] + "=" + getDefaultValues()[i] + "\n";
+            
+        }
+        
+        fileManager.WriteFile("settings.cfg", settingsDefault);
         
     }
     
@@ -186,6 +201,48 @@ public class SettingsManager {
         String[] splitted = full.split("\n");
         
         return splitted.length;
+        
+    }
+    
+    //Add the keys that are not pressent in the settings file with default values
+    public void regenerateSettings(){
+        
+        //Create a list of the settings to be added
+        boolean toRegenerate[] = new boolean[getDefaultKeys().length];
+        String defaultKeys[] = getDefaultKeys();
+        String orderedKeys[] = getOrderedKeys();
+        for (int i = 0; i < defaultKeys.length; i++) {
+            
+            boolean regenerate = true;
+            
+            for (int j = 0; j < orderedKeys.length; j++) {
+                
+                if(defaultKeys[i].equals(orderedKeys[j])){
+                    
+                    regenerate = false;
+                    
+                }
+                
+            }
+            
+            toRegenerate[i] = regenerate;
+            
+        }
+        
+        //Build the string of the pairs
+        String settingsDefault = "";
+        String defaultValues[] = getDefaultValues();
+        for (int i = 0; i < toRegenerate.length; i++) {
+            
+            if(toRegenerate[i]){
+                
+                settingsDefault += defaultKeys[i] + "=" + defaultValues[i] + "\n";
+                
+            }
+            
+        }
+        
+        fileManager.AppendFile("settings.cfg", settingsDefault);
         
     }
     

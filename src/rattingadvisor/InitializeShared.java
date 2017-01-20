@@ -51,15 +51,7 @@ public class InitializeShared {
             }
             
             //Add all the settings that may be missing in the file
-            if(settingsManager.numberOfSettings() < settingsManager.getDefaultKeys().length){
-                
-                for (int i = 0; i < settingsManager.getDefaultKeys().length; i++) {
-                    
-                    settingsManager.addSetting(settingsManager.getDefaultKeys()[i], "None");
-                    
-                }
-                
-            }
+            settingsManager.regenerateSettings();
             
             if(orderedValues[0].equals("None"))
                 orderedValues[0] = System.getProperty("user.home") + File.separatorChar + "Documents" + File.separatorChar + "EVE" + File.separatorChar + "logs" + File.separatorChar + "Chatlogs";
@@ -88,6 +80,7 @@ public class InitializeShared {
             shared.setSystemsInRange(shared.getMapLogic().mapSearcher(shared.getRattingSystemName(), shared.getMaxJumpsNumber()));
             shared.setKeepsGettingSystems(false);
             shared.setStopTimerMusic(new ArrayList<Boolean>());
+            shared.setIncludeClear(Boolean.valueOf(settingsManager.getSetting("IncludeClear")));
             //End Populate Shared Variables
 
             //Set Default Values for the MainWindow TextAreas

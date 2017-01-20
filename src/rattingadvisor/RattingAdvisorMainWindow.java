@@ -49,7 +49,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     Every time there needs to be a small update but not enough for a version
     change, the same version gets auto-updated.
     */
-    int currentVersion = 19;
+    int currentVersion = 20;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -59,7 +59,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         settingsManager = new SettingsManager();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.1.9");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.2.0");
         getFrame().setResizable(false);//We do not want to let people resize the window
         if(settingsManager.getSetting("Style").equals("DARK")){
             
@@ -143,7 +143,7 @@ public class RattingAdvisorMainWindow extends FrameView {
 
         mainPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        versionLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         startButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
@@ -173,8 +173,8 @@ public class RattingAdvisorMainWindow extends FrameView {
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
-        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
-        jLabel2.setName("jLabel2"); // NOI18N
+        versionLabel.setText(resourceMap.getString("versionLabel.text")); // NOI18N
+        versionLabel.setName("versionLabel"); // NOI18N
 
         jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
         jLabel3.setName("jLabel3"); // NOI18N
@@ -282,7 +282,7 @@ public class RattingAdvisorMainWindow extends FrameView {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2)))
+                            .addComponent(versionLabel)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
@@ -330,7 +330,7 @@ public class RattingAdvisorMainWindow extends FrameView {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(versionLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(11, 11, 11)
@@ -456,7 +456,6 @@ public class RattingAdvisorMainWindow extends FrameView {
     private javax.swing.JCheckBox checkNeutrals;
     private javax.swing.JButton clearLogButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -475,6 +474,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     private javax.swing.JCheckBox shieldAlarm;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
+    private javax.swing.JLabel versionLabel;
     // End of variables declaration//GEN-END:variables
 
 }

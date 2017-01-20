@@ -84,6 +84,7 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="changeLogsPathButton" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <Component id="includeClear" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -110,7 +111,10 @@
                   <Component id="intelChannel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Component id="darkThemeCheck" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="darkThemeCheck" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="includeClear" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -276,6 +280,12 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="darkThemeCheckActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="includeClear">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="includeClear.text"/>
+        <Property name="name" type="java.lang.String" value="includeClear" noResource="true"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -55,7 +55,16 @@ public class Shared {
     private static volatile boolean keepsGettingSystems;
     private static volatile String[] allSystems;
     private static volatile ArrayList<Boolean> stopTimerMusic;
+    private static volatile boolean includeClear;
     //End Shared Variables
+
+    public boolean includeClear() {
+        return includeClear;
+    }
+
+    public void setIncludeClear(boolean includeClear) {
+        Shared.includeClear = includeClear;
+    }
 
     public ArrayList<Boolean> getStopTimerMusic() {
         return stopTimerMusic;
