@@ -354,7 +354,8 @@ public class SettingsWindow extends javax.swing.JFrame {
         
         fileManager.WriteFile("settings.cfg", newFile);
         
-        InitializeShared initializeShared = new InitializeShared(shared.getLogTextAreaMainWindow(), shared.getRattingSystemTextMainWindow(), shared.getMaxJumpsMainWindow());
+        Thread initializeShared = new InitializeShared(shared.getLogTextAreaMainWindow(), shared.getRattingSystemTextMainWindow(), shared.getMaxJumpsMainWindow());
+        initializeShared.start();
         dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         
     }//GEN-LAST:event_saveButtonActionPerformed

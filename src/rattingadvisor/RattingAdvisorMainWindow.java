@@ -39,7 +39,7 @@ import org.jdesktop.application.FrameView;
 public class RattingAdvisorMainWindow extends FrameView {
 
     Thread searcher;
-    InitializeShared initializeShared;
+    Thread initializeShared;
     SettingsManager settingsManager;
     
     /*
@@ -49,7 +49,7 @@ public class RattingAdvisorMainWindow extends FrameView {
     Every time there needs to be a small update but not enough for a version
     change, the same version gets auto-updated.
     */
-    int currentVersion = 20;
+    int currentVersion = 21;
     
     public RattingAdvisorMainWindow(SingleFrameApplication app) {
         super(app);
@@ -59,7 +59,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         settingsManager = new SettingsManager();
         
         //Frame Settings
-        getFrame().setTitle("EVE Online Ratting Advisor - v 0.2.0");
+        getFrame().setTitle("EVE Online Ratting Advisor - v 0.2.1");
         getFrame().setResizable(false);//We do not want to let people resize the window
         if(settingsManager.getSetting("Style").equals("DARK")){
             
@@ -82,53 +82,11 @@ public class RattingAdvisorMainWindow extends FrameView {
 
         //Initialization
         initializeShared = new InitializeShared(logTextArea, rattingSystemText, maxJumps);
+        initializeShared.start();
         
-        try {
-            
-            //Look for new versions
-            int newVersion;
-            String uri = "http://anibal.grupoedin.com/EORA/current.ver";
-            URL versionUrl;
-            versionUrl = new URL(uri);
-            File versionDest = new File("current.ver");
-            FileUtils.copyURLToFile(versionUrl, versionDest);
-
-            //Read the current version information
-            BufferedReader br = new BufferedReader(new FileReader(versionDest));
-            newVersion = Integer.parseInt(br.readLine());
-            br.close();
-            
-            //Delete version file
-            versionDest.delete();
-            
-            //Test if it's needed to call the updater and call it
-            if(newVersion > currentVersion){
-                
-                //0 if accepted
-                int result = JOptionPane.showConfirmDialog(mainPanel, "New version of EVE Online Ratting Advisor is available.\nDo you want to update?", "New version available", JOptionPane.OK_CANCEL_OPTION);
-                
-                if(result == 0){
-                    
-                    String[] arguments = {"java", "-jar", "EORA Updater.jar"};
-                    Runtime.getRuntime().exec(arguments);
-                    System.exit(0);
-                    
-                }else{
-                    
-                    new Shared().getDbUtils().log("You are using a DEPRECATED version of Ratting Advisor.");
-                    
-                }
-                
-            }else{
-                    
-                new Shared().getDbUtils().log("You are using the latest version of Ratting Advisor.");
-                new AfterUpdateCleaner().clean();
-                    
-            }
-            
-        } catch (Exception e) {
-            new Shared().getDbUtils().log("The program have been unable of getting the latest version of Ratting Advisor.");
-        }
+        //Test the version and do the update process.
+        Thread versionThread = new VersionThread(currentVersion, logTextArea, mainPanel);
+        versionThread.start();
         
     }
 
@@ -432,6 +390,7 @@ public class RattingAdvisorMainWindow extends FrameView {
         
         JOptionPane.showMessageDialog(null, "Renember only the last game session opened's intel channel will be chosen\neven if that game session is closed.", "New Session Search", JOptionPane.INFORMATION_MESSAGE);
         initializeShared = new InitializeShared(logTextArea, rattingSystemText, maxJumps);
+        initializeShared.start();
         
     }//GEN-LAST:event_searchButtonActionPerformed
 

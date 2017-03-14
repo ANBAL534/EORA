@@ -30,9 +30,22 @@ import javax.swing.JTextField;
  *
  * @author Anibal
  */
-public class InitializeShared {
+public class InitializeShared extends Thread{
+    
+    JTextArea log;
+    JTextField rattingSystem;
+    JSpinner jumps;
     
     public InitializeShared(JTextArea log, JTextField rattingSystem, JSpinner jumps){
+        
+        this.log = log;
+        this.rattingSystem = rattingSystem;
+        this.jumps = jumps;
+        
+    }
+    
+    @Override
+    public void run(){
         
         try {
             
@@ -92,9 +105,11 @@ public class InitializeShared {
             Thread getSystemsThread = new GetSystemsThread();
             getSystemsThread.start();
             
+            while (getSystemsThread.isAlive());
+            
         } catch (Exception e) {
             
-            JOptionPane.showMessageDialog(null, "It seems that the instalation of the program is incomplete.\nOne or more files are missing in the folder.\n\nPress OK to exit.", "Installation Error", JOptionPane.OK_OPTION);
+            JOptionPane.showMessageDialog(null, "It seems that the instalation of the program is incomplete. (Initialization error)\nOne or more files are missing in the folder.\n\nPress OK to exit.", "Installation Error", JOptionPane.OK_OPTION);
             System.out.println(e.toString());
             System.exit(-1);
             
